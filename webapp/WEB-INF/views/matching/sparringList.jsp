@@ -12,9 +12,11 @@
 <title>Document</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/assets/css/header.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/assets/css/style_1.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.12.4.js"></script>
 <script src="https://kit.fontawesome.com/5a9452f10d.js"
 	crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 
 <body>
@@ -49,20 +51,28 @@
 						</a>
 					</div>
 					<!--검색-->
-					<form class="sm_searching_item1_form" action="">
+					<form class="sm_searching_item1_form" action="${pageContext.request.contextPath }/sparring/match">
 
 						<a class="item2_list_a3" href="">
 							<div class="list1_btn1">
 								<div>전체보기</div>
 							</div>
-						</a> <select class="item1_address" name="address2" id="">
-							<option class="item1_address_option" value="21-03-05">날짜선택</option>
-						</select> <select class="item1_address" name="address2" id="">
-							<option class="item1_address_option" value="21-03-05">시간선택</option>
-						</select> <input class="input-text" type="text"
-							placeholder="시군구 또는 체육관 이름..">
+						</a> 
+						<input class="item1_address select1" name="date" type="text" placeholder="날짜선택">
+						<select class="item1_address" name="time" id="">
+							<option class="item1_address_option" value="">시간선택</option>
+							<option class="item1_address_option" value="00:00~06:00">00:00~06:00</option>
+							<option class="item1_address_option" value="06:00~09:00">06:00~09:00</option>
+							<option class="item1_address_option" value="09:00~12:00">09:00~12:00</option>
+							<option class="item1_address_option" value="12:00~15:00">12:00~15:00</option>
+							<option class="item1_address_option" value="15:00~18:00">15:00~18:00</option>
+							<option class="item1_address_option" value="18:00~21:00">18:00~21:00</option>
+							<option class="item1_address_option" value="21:00~24:00">21:00~24:00</option>
+						</select> 
+						<input class="input-text" type="text"
+							name="search" placeholder="시군구 또는 체육관 이름..">
 
-						<button class="address_btn">검색</button>
+						<button type="submit" class="address_btn">검색</button>
 					</form>
 				</div>
 				<!-- 체육관 검색 -->
@@ -239,6 +249,7 @@
 		<!-- container end -->
 	</div>
 	<!-- wrap end -->
+
 </body>
 
 <script type="text/javascript">
@@ -258,6 +269,24 @@
 		
 		
 	});
+	//faltpickr
+	$(".select1").flatpickr({
+		
+		
+		 enableTime: false,
+		 minDate: "today",
+		 maxDate: new Date().fp_incr(10),
+		 dateFormat: "Y-m-d",
+		 
+	});
+	
+	$(".select1").change(function () {
+		var date1 = $(".select1").val();
+		
+		console.log(date1);
+	});
+	
+	
 	
 	function btnlist(){
 	str="";

@@ -24,6 +24,7 @@ import com.javaex.vo.GymVo;
 import com.javaex.vo.MatchScoreVo;
 import com.javaex.vo.ProfileVo;
 import com.javaex.vo.RecordVo;
+import com.javaex.vo.SearchMatchVo;
 
 @Controller
 @RequestMapping(value = "/sparring", method = { RequestMethod.GET, RequestMethod.POST })
@@ -35,11 +36,16 @@ public class SparringController {
 	// 스파링 리스트
 	@RequestMapping(value = "/match", method = { RequestMethod.GET, RequestMethod.POST })
 	public String match(Model model ,
-			 @RequestParam(value="userno", required=false, defaultValue="0")int userno) {
+			 @RequestParam(value="userno", required=false, defaultValue="0")int userno,
+			 @ModelAttribute SearchMatchVo seachMatchVo ) {
 		System.out.println("[Controller] : match()");
 		System.out.println("유저넘버 :" + userno);
-		List<BBuyVo> bBuyList = sparringService.match(userno);
-		model.addAttribute("bBuyList",bBuyList);
+		System.out.println("날짜" + seachMatchVo.getDate());
+		System.out.println("시간" + seachMatchVo.getTime());
+		System.out.println("검색어" + seachMatchVo.getSearch());
+		
+		//List<BBuyVo> bBuyList = sparringService.match(userno);
+		//model.addAttribute("bBuyList",bBuyList);
 		
 		return "matching/sparringList";
 	}

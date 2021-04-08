@@ -804,13 +804,14 @@ input:-ms-input-placeholder {
   font-size: 11px;
 }
 
-.active {
+.active1 {
   background-color: #e60012;
   border-radius: 60px;
 }
 
-.active > p,
-.active > span {
+
+.active1 > p,
+.active1 > span {
   color: #fff;
 }
 
