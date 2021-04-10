@@ -32,20 +32,26 @@ public class SparringController {
 
 	@Autowired
 	SparringService sparringService;
-
-	// 스파링 리스트
+	
+	// by 영훈 
+	// 스파링 리스트 + 스파링 리스트의 검색기능 (searchMatchVo 사용)
+	// 스파링 리스트(21-03-25) 나에게맞는 매칭 (21-03-30) 검색(04-10)
 	@RequestMapping(value = "/match", method = { RequestMethod.GET, RequestMethod.POST })
 	public String match(Model model ,
 			 @RequestParam(value="userno", required=false, defaultValue="0")int userno,
-			 @ModelAttribute SearchMatchVo seachMatchVo ) {
+			 @ModelAttribute SearchMatchVo searchMatchVo ) {
 		System.out.println("[Controller] : match()");
 		System.out.println("유저넘버 :" + userno);
-		System.out.println("날짜" + seachMatchVo.getDate());
-		System.out.println("시간" + seachMatchVo.getTime());
-		System.out.println("검색어" + seachMatchVo.getSearch());
+		System.out.println("SearchVo : " +searchMatchVo );
+		System.out.println("날짜" + searchMatchVo.getDate());
+		System.out.println("시간" + searchMatchVo.getTime());
+		System.out.println("검색어" + searchMatchVo.getSearch());
 		
-		//List<BBuyVo> bBuyList = sparringService.match(userno);
-		//model.addAttribute("bBuyList",bBuyList);
+		
+		List<BBuyVo> bBuyList = sparringService.match(userno , searchMatchVo);
+		
+		
+		model.addAttribute("bBuyList",bBuyList);
 		
 		return "matching/sparringList";
 	}

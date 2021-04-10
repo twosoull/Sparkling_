@@ -4,14 +4,15 @@
 <configuration>
 	<typeAliases>
 
-		<typeAlias alias="UserVo" type="com.javaex.vo.UserVo" /> <!-- 영훈 SparringVo -->
-		<typeAlias alias="BBuyVo" type="com.javaex.vo.BBuyVo" /> <!-- 영훈 SparringVo -->
-		<typeAlias alias="ConvenienceVo" type="com.javaex.vo.ConvenienceVo" /> <!-- 영훈 SparringVo -->
-		<typeAlias alias="BookingVo" type="com.javaex.vo.BookingVo" /> <!-- 영훈 SparringVo -->
-		<typeAlias alias="ProfileVo" type="com.javaex.vo.ProfileVo" /> <!-- 영훈 SparringVo -->
-		<typeAlias alias="EventVo" type="com.javaex.vo.EventVo" /> <!-- 영훈 SparringVo -->
-		<typeAlias alias="RecordVo" type="com.javaex.vo.RecordVo" /> <!-- 영훈 SparringVo -->
-		<typeAlias alias="MatchScoreVo" type="com.javaex.vo.MatchScoreVo" /> <!-- 영훈 SparringVo -->
+		<typeAlias alias="UserVo" type="com.javaex.vo.UserVo" /> <!-- 영훈 UserVo-->
+		<typeAlias alias="BBuyVo" type="com.javaex.vo.BBuyVo" /> <!-- 영훈 BBuyVo-->
+		<typeAlias alias="ConvenienceVo" type="com.javaex.vo.ConvenienceVo" /> <!-- 영훈 ConvenienceVo -->
+		<typeAlias alias="BookingVo" type="com.javaex.vo.BookingVo" /> <!-- 영훈 BookingVo -->
+		<typeAlias alias="ProfileVo" type="com.javaex.vo.ProfileVo" /> <!-- 영훈 ProfileVo-->
+		<typeAlias alias="EventVo" type="com.javaex.vo.EventVo" /> <!-- 영훈 EventVo -->
+		<typeAlias alias="RecordVo" type="com.javaex.vo.RecordVo" /> <!-- 영훈 RecordVo -->
+		<typeAlias alias="MatchScoreVo" type="com.javaex.vo.MatchScoreVo" /> <!-- 영훈 MatchScoreVo" -->
+		<typeAlias alias="SearchMatchVo" type="com.javaex.vo.SearchMatchVo" /> <!-- 영훈 SearchMatchVo -->
 		<typeAlias alias="AlarmVo" type="com.javaex.vo.AlarmVo" />
 		<typeAlias alias="GymVo" type="com.javaex.vo.GymVo" /> <!-- 다현 GymVo -->
 		<typeAlias alias="ConVo" type="com.javaex.vo.ConVo" /> <!-- 다현 ConVo -->

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.javaex.dao.AlarmDao;
 import com.javaex.dao.SparringDao;
@@ -25,6 +26,7 @@ import com.javaex.vo.GymVo;
 import com.javaex.vo.MatchScoreVo;
 import com.javaex.vo.ProfileVo;
 import com.javaex.vo.RecordVo;
+import com.javaex.vo.SearchMatchVo;
 import com.javaex.vo.UserVo;
 
 @Service
@@ -527,14 +529,42 @@ public class SparringService {
 		}
 
 	}
-
-	public List<BBuyVo> match(int userNo) {
+	
+	// by 영훈 
+	// 스파링 리스트 + 스파링 리스트의 검색기능 (searchMatchVo 사용)
+	// 스파링 리스트(21-03-25) 나에게맞는 매칭 (21-03-30) 검색(04-10)
+	public List<BBuyVo> match(int userNo, SearchMatchVo searchMatchVo) {
 		System.out.println("[Service] : match");
+		
+		
+		//검색으로오는 ex) 09:00~12:00 를 
+		//booking테이블의 booking_start와 booking_end 로 나눠주기
+		System.out.println(searchMatchVo);
+		if(!StringUtils.isEmpty(searchMatchVo.getTime())) {
+			
+			System.out.println("시간 나누기");
+			if(!"".equals(searchMatchVo.getTime())) {
+				System.out.println("시간 나누기2");
+			
+				String time =  searchMatchVo.getTime();
+				
+				Map<String,String> timeMap = takeStartEndTime(time);
+				
+				searchMatchVo.setBooking_start(timeMap.get("bookingStart"));
+				searchMatchVo.setBooking_end(timeMap.get("bookingEnd"));
+				System.out.println(searchMatchVo.getBooking_start());
+				System.out.println(searchMatchVo.getBooking_end());
+			}
+		}
+		//booking테이블의 booking_start와 booking_end 로 나눠주기 end
+		System.out.println("통과");
 		
 		List<BBuyVo> bBuyList = null;
 		if(userNo == 0) {
-			bBuyList = sparringDao.selectBBuyList();
+			//일반 매칭리스트 or 스파링 일반 검색 기능
+			bBuyList = sparringDao.selectBBuyList(searchMatchVo);
 		}else {
+			//내게 맞는 매칭 검색은 userNo가 있다
 			
 			UserVo userVo = sparringDao.selectOneUserVo(userNo);
 			BBuyVo leVo = new BBuyVo();
@@ -2079,4 +2109,20 @@ public class SparringService {
 		sparringDao.insertMatchScore(matchScoreVo);
 		
 	}
+	
+	
+	/*******************일반 메소드**********************/
+	
+	public Map<String,String> takeStartEndTime(String time) {
+		
+			String[] timeArray = time.split("~");
+			
+			Map<String,String> timeMap = new HashMap<String,String>();
+			
+			timeMap.put("bookingStart",timeArray[0]);
+			timeMap.put("bookingEnd",timeArray[1]);
+		return timeMap;
+	}
+	
+	
 }

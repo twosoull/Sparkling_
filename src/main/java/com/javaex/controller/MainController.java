@@ -5,12 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javaex.service.SparringService;
 import com.javaex.vo.BBuyVo;
+import com.javaex.vo.SearchMatchVo;
 
 @Controller
 @RequestMapping(value = "")
@@ -22,12 +24,14 @@ public class MainController {
 	
 	// 메인페이지 추후 리스트 적용해야함
 	@RequestMapping(value = "", method = { RequestMethod.GET, RequestMethod.POST })
-	public String main(Model model ,@RequestParam(value="userno", required=false, defaultValue="0")int userno) {
+	public String main(Model model ,@RequestParam(value="userno", required=false, defaultValue="0")int userno,
+			@ModelAttribute SearchMatchVo searchMatchVo) {
 		System.out.println("[cnt]메인페이지");
 		
 		
-		
-		List<BBuyVo> bBuyList = sparringService.match(userno);
+		//by영훈 (04-10)
+		//메인페이지 매치리스트 (메인페이지에서 검색기능은 사용안하지만, 오류제거를 위해 searchMatchVo가 사용)
+		List<BBuyVo> bBuyList = sparringService.match(userno,searchMatchVo);
 		
 		model.addAttribute("bBuyList",bBuyList);
 		

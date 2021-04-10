@@ -53,7 +53,7 @@
 					<!--검색-->
 					<form class="sm_searching_item1_form" action="${pageContext.request.contextPath }/sparring/match">
 
-						<a class="item2_list_a3" href="">
+						<a class="item2_list_a3" href="${pageContext.request.contextPath }/sparring/match">
 							<div class="list1_btn1">
 								<div>전체보기</div>
 							</div>

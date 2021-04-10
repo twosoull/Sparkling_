@@ -17,6 +17,7 @@ import com.javaex.vo.GymVo;
 import com.javaex.vo.MatchScoreVo;
 import com.javaex.vo.ProfileVo;
 import com.javaex.vo.RecordVo;
+import com.javaex.vo.SearchMatchVo;
 import com.javaex.vo.UserVo;
 
 @Repository
@@ -163,13 +164,26 @@ public class SparringDao {
 		
 		System.out.println(count);
 	}
-
+	
+	// by 영훈 
+	// 스파링 리스트 (메인페이지 사용)
+	// 스파링 리스트(21-03-25) 
 	public List<BBuyVo> selectBBuyList() {
 		System.out.println("[Dao] : selectBBuyList");
 		
 		return sqlSession.selectList("bbuy.selectListBBuy");
 		
 		
+	}
+	// by 영훈 
+	// 스파링 리스트 + 스파링 리스트의 검색기능 (searchMatchVo 사용)
+	// 스파링 리스트(21-03-25) 검색(04-10)
+	public List<BBuyVo> selectBBuyList(SearchMatchVo searchMatchVo) {
+			System.out.println("[Dao] : selectBBuyList(SearchMatchVo)");
+			
+			return sqlSession.selectList("bbuy.selectListBBuynSearch",searchMatchVo);
+			
+			
 	}
 	
 	//신청자구하기
