@@ -120,13 +120,13 @@
                                             				복싱
                                             			</c:when>
 															<c:when test="${recordvo.recordEvent == 2 }">
-                                            				,킥복싱
+                                            				 킥복싱
                                             			</c:when>
 															<c:when test="${recordvo.recordEvent == 3 }">
-                                            				,종합격투기
+                                            				 종합격투기
                                             			</c:when>
 															<c:when test="${recordvo.recordEvent == 4 }">
-                                            				,주짓수
+                                            				 주짓수
                                             		</c:when>
 														</c:choose>
 													</p>
@@ -269,13 +269,13 @@
                                             				복싱
                                             			</c:when>
 																	<c:when test="${recordvo.recordEvent == 2 }">
-                                            				,킥복싱
+                                            				 킥복싱
                                             			</c:when>
 																	<c:when test="${recordvo.recordEvent == 3 }">
-                                            				,종합격투기
+                                            				 종합격투기
                                             			</c:when>
 																	<c:when test="${recordvo.recordEvent == 4 }">
-                                            				,주짓수
+                                            				 주짓수
                                             		</c:when>
 																</c:choose>
 															</p>

@@ -331,7 +331,7 @@
 									</c:when>
 									<c:otherwise>
 									
-									<input id="session_user_no" type="text" name="userNo" value="${authUser.user_no}">
+									<input id="session_user_no" type="hidden" name="userNo" value="${authUser.user_no}">
 									</c:otherwise>
 									</c:choose>
 									<input type="hidden" name="subnum" value="${param.subnum}">

@@ -555,7 +555,7 @@ input:-ms-input-placeholder {
 .rental_img {
   position: relative;
   width: 310px;
-  height: 290px;
+  height: 270px;
   top: -1px;
   border-radius: 10px;
 }
@@ -874,6 +874,9 @@ input:-ms-input-placeholder {
 }
 
 /* map */
+#map{
+	margin-left : 270px;
+}
 .dae_map {
   width: 1050px;
   text-align: center;

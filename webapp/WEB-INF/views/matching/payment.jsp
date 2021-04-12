@@ -243,7 +243,7 @@
 							</a>
 						</div>
 					
-						<input type="text" name="profile_no" value="${param.profileno}"> 
+						<input type="hidden" name="profile_no" value="${param.profileno}"> 
 					
 					<input type="hidden" name="user_no" value="${param.userno}"> 
 					<input type="hidden" name="b_buy_price" value="${map.bookingVo.booking_price/2}">
