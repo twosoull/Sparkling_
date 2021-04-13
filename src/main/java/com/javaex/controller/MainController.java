@@ -1,6 +1,8 @@
 package com.javaex.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javaex.service.SparringService;
+import com.javaex.service.StoreService;
 import com.javaex.vo.BBuyVo;
+import com.javaex.vo.ProductVo;
 import com.javaex.vo.SearchMatchVo;
 
 @Controller
@@ -21,11 +25,14 @@ public class MainController {
 	
 	@Autowired
 	SparringService sparringService;
+	@Autowired
+	StoreService storeService;
 	
 	// 메인페이지 추후 리스트 적용해야함
 	@RequestMapping(value = "", method = { RequestMethod.GET, RequestMethod.POST })
 	public String main(Model model ,@RequestParam(value="userno", required=false, defaultValue="0")int userno,
-			@ModelAttribute SearchMatchVo searchMatchVo) {
+			@ModelAttribute SearchMatchVo searchMatchVo,
+			@RequestParam(value="search", required = false, defaultValue = "") String search) {
 		System.out.println("[cnt]메인페이지");
 		
 		
@@ -34,6 +41,18 @@ public class MainController {
 		List<BBuyVo> bBuyList = sparringService.match(userno,searchMatchVo);
 		
 		model.addAttribute("bBuyList",bBuyList);
+		
+		//by영훈 (04-13) 세림님 코드 추가함
+		//메인페이지 쇼핑리스트
+
+		List<ProductVo> storeList = storeService.storeList(search);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("bBuyList",bBuyList);
+		map.put("storeList", storeList);
+		
+		model.addAttribute("map", map);
+		
 		
 		return "main/index";
 	}

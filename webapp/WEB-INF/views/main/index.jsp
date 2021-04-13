@@ -176,120 +176,39 @@
 
 	<div class="wrap">
 		<div class="container">
-			<div id="goodsList">
-				<ul>
-					<!--첫번째 줄-->
-					<li>
-						<div class="item">
-							<a class="img" style="background-image: url();"
-								href="./store_products.html"> <img
-								src="${pageContext.request.contextPath }/assets/image/store_img/glove1.jpg"
-								onerror="this.src='https://res.kurly.com/mobile/img/1808/img_none_x2.png'"
-								width="308" height="396">
-							</a>
-
-							<div>
-								<a class="info" href="./store_products.html"> <span
-									class="name">[에버라스트] 복싱 백글러브</span> <span class="price">153,675원</span>
-									<span class="desc"> <!----></span>
-								</a>
-							</div>
-						</div> <!--.item-->
-					</li>
-
-					<!--미리보기 예시 리스트-->
-					<li>
-						<div class="item left_item">
-							<a class="img" style="background-image: url();"
-								href="./store_products.html"> <img
-								src="${pageContext.request.contextPath }/assets/image/store_img/graybox.jpg"
-								onerror="this.src='https://res.kurly.com/mobile/img/1808/img_none_x2.png'"
-								width="308" height="396">
-							</a>
-
-							<div>
-								<a class="info" href="./store_products.html"> <span
-									class="name">[붕대] 압박 붕대(10개입)</span> <span class="price">11,500원</span>
-									<span class="desc"> <!----></span>
-								</a>
-							</div>
-						</div> <!--.item-->
-					</li>
-					<li>
-						<div class="item left_item">
-							<a class="img" style="background-image: url();"
-								href="./store_products.html"> <img
-								src="${pageContext.request.contextPath }/assets/image/store_img/graybox.jpg"
-								onerror="this.src='https://res.kurly.com/mobile/img/1808/img_none_x2.png'"
-								width="308" height="396">
-							</a>
-
-							<div>
-								<a class="info" href="./store_products.html"> <span
-									class="name">[샌드백] 가정용 스탠딩 샌드백</span> <span class="price">54,900원</span>
-									<span class="desc"> <!----></span>
-								</a>
-							</div>
-						</div> <!--.item-->
-					</li>
-
-					<!--두번째 줄-->
-					<li>
-						<div class="item">
-							<a class="img" style="background-image: url();"
-								href="./store_products.html"> <img
-								src="${pageContext.request.contextPath }/assets/image/store_img/graybox.jpg"
-								onerror="this.src='https://res.kurly.com/mobile/img/1808/img_none_x2.png'"
-								width="308" height="396">
-							</a>
-
-							<div>
-								<a class="info" href="./store_products.html"> <span
-									class="name">[글러브] 펀치킹 글러브</span> <span class="price">153,675원</span>
-									<span class="desc"> <!----></span>
-								</a>
-							</div>
-						</div> <!--.item-->
-					</li>
-					<li>
-						<div class="item left_item">
-							<a class="img" style="background-image: url();"
-								href="./store_products.html"> <img
-								src="${pageContext.request.contextPath }/assets/image/store_img/graybox.jpg"
-								onerror="this.src='https://res.kurly.com/mobile/img/1808/img_none_x2.png'"
-								width="308" height="396">
-							</a>
-
-							<div>
-								<a class="info" href="./store_products.html"> <span
-									class="name">[붕대] 압박 붕대(10개입)</span> <span class="price">11,500원</span>
-									<span class="desc"> <!----></span>
-								</a>
-							</div>
-						</div> <!--.item-->
-					</li>
-					<li>
-						<div class="item left_item">
-							<a class="img" style="background-image: url();"
-								href="./store_products.html"> <img
-								src="${pageContext.request.contextPath }/assets/image/store_img/graybox.jpg"
-								onerror="this.src='https://res.kurly.com/mobile/img/1808/img_none_x2.png'"
-								width="308" height="396">
-							</a>
-
-							<div>
-								<a class="info" href="./store_products.html"> <span
-									class="name">[샌드백] 가정용 스탠딩 샌드백</span> <span class="price">54,900원</span>
-									<span class="desc"> <!----></span>
-								</a>
-							</div>
-						</div> <!--.item-->
-					</li>
-
-
-				</ul>
-			</div>
-			<!-- //goodsList -->
+			<div class="wrap2">
+		<div class="container2">
+	    <div id="goodsList">
+	      <ul>
+	        <!--첫번째 줄-->
+	        <c:forEach items="${map.storeList}" var="stoVo">
+		        <li>
+		          <input type="hidden" name="prod_no" value="${stoVo.prod_no}">
+		          <input type="hidden" name="sell_no" value="${stoVo.sell_no}">
+		          <input type="hidden" name="prod_cate" value="${stoVo.prod_cate}">
+		          <input type="hidden" name="event_cate" value="${stoVo.event_cate}">
+		          <div class="item">
+		              <a class="img" href="${pageContext.request.contextPath}/store/read?prodNo=${stoVo.prod_no}">
+		                <img src="${pageContext.request.contextPath}/upload/${stoVo.prod_img_savename}"  width="308" height="396">
+		              </a> 
+		
+		              <div>
+		                <a class="info" href="${pageContext.request.contextPath}/store/read?${stoVo.prod_no}">
+		                  <span class="name">[${stoVo.prod_brand}]${stoVo.prod_name}</span>
+		                  <span class="price"><fmt:formatNumber value="${stoVo.prod_price}" pattern="#,###"/>원</span>
+		                  <span class="desc"></span>
+		                </a>
+		             </div>
+		          </div>      
+		        </li> 
+	        </c:forEach>
+	        
+	      </ul>
+	    </div>
+	  </div>
+	  <!--container-->
+	</div>
+	<!--wrap-->
 		</div>
 		<!--container-->
 	</div>
