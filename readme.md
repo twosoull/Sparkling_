@@ -1,5 +1,5 @@
 # 프로젝트 SPARKLING
-![main_page](https://media.discordapp.net/attachments/813586043332460549/831398756434837544/13-4-2021_14945_www.localhost.jpeg?width=529&height=546)
+![main_page](https://cdn.discordapp.com/attachments/813586043332460549/831398756434837544/13-4-2021_14945_www.localhost.jpeg)
 ___
 ## 기획 목표
 스파클링(스파링 클래스 링 위에서 보여주기)는 `격투기를 즐기는 20~30대 남성`을 대상으로 하는 `스파링 파트너 매칭 및 스파링 용품 판매 사이트`입니다. 이용자의 위치정보를 기반으로 하는 스파링 장소 대여, 스파링 파트너 매칭, 용품 판매 서비스를 포함하는 생활스포츠서비스를 제공하는 것이 목적입니다.
