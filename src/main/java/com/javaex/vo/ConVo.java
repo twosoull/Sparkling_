@@ -14,6 +14,12 @@ public class ConVo {
 		this.gym_no = gym_no;
 		this.con_name = con_name;
 	}
+	
+	public ConVo(int gym_no, String con_name, int con_state) {
+		this.gym_no = gym_no;
+		this.con_name = con_name;
+		this.con_state = con_state;
+	}
 
 	public ConVo(int con_no, int gym_no, String con_name, int con_state) {
 		this.con_no = con_no;

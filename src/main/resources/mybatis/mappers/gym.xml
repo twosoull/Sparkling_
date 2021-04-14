@@ -5,11 +5,29 @@
 <mapper namespace="gym">
 	
 	<!-- 소유 체육관 리스트  -->
-	<select id="gymSelectList" parameterType="Int" resultType="GymVo">
+	<select id="gymnoSelectList" parameterType="Int" resultType="GymVo">
 		<![CDATA[ 
 			SELECT  gym_no,
 					sell_no,
 			        gym_name
+			FROM gym
+			where sell_no = #{sellNo}
+			order by gym_no desc
+		]]>
+	</select>
+	
+	<!-- 소유 체육관 정보 리스트 -->
+	<select id="gymSelectList" parameterType="Int" resultType="GymVo">
+		<![CDATA[ 
+			SELECT  gym_no,
+			        sell_no,
+			        gym_name,
+			        gym_address,
+			        gym_ph,
+			        gym_time,
+			        gym_notice,
+			        gym_event,
+					gym_date
 			FROM gym
 			where sell_no = #{sellNo}
 			order by gym_no desc

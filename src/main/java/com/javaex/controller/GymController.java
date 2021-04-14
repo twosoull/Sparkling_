@@ -28,55 +28,23 @@ public class GymController {
 	@Autowired
 	private GymService gymService;
 	
-	//체육관 관리 경유지
-	@RequestMapping(value="/gyminfo", method= {RequestMethod.GET , RequestMethod.POST})
-	public String gymInfoPath(@RequestParam("no") int sellNo,
-						  HttpSession session,
-						  Model model) { 
-		
-		//세션에서 user_no   구한다 --> 서비스getGymInfo()에 전달
-		//mypage/mypage_resrvation/mypage_gyminfo
-		//
-		/*
-		 * getGymInfo(no){
-		 *   // 체유관리스트  4개
-		 *   // 0번째 짐 상세정보 = 리스트에서 0 상세조회
-		 *   
-		 * }   
-		 */
-
-		//사업자번호를 조건으로 체육관을 리스트로 가져온 후 각탭에 체육관 번호 넣기
-		System.out.println("[GymController] gymInfoPath()");
-		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		
-		//세션으로 사업자 번호 int sellNo 받아서 사업자만 접근 가능하게 만들기
-		
-		//사이드 메뉴에서 들어갈 때 sellNo만 받아서 최근 gymNo를 불러옴
-		GymVo vo = gymService.gymNo(sellNo);
-		
-		//등록된 체육관이 없을 경우
-		if(vo == null) { 
-			return "mypage/mypage_resrvation/mypage_notgym";
-		}
-		
-		int gymNo = vo.getGym_no();
-
-		/*
-		GymVo gymVo = gymService.gymInfo(gymno);
-		System.out.println(gymVo);
-		model.addAttribute("gymVo", gymVo);
-		*/
-		return "redirect:/mypage/book/gym?no="+sellNo+"&gymno="+gymNo;
-	}
-	
 	//체육관 관리 페이지
 	@RequestMapping(value="/gym", method= {RequestMethod.GET , RequestMethod.POST})
 	public String gymInfo(@RequestParam("no") int sellNo,
 						@RequestParam("gymno") int gymNo, Model model) {
-		System.out.println("[GymController] gymInfo()");
+		System.out.println("[GymController] gym()");
 		
-		model.addAttribute("gymMap", gymService.gymInfo(sellNo, gymNo));
+		//탭 gymList + gymVo
+		if(gymNo != 0) {
+			Map<String, Object> gymMap = gymService.gymInfo(sellNo, gymNo);
+			model.addAttribute("gymMap", gymMap);
+			
+			return "mypage/mypage_resrvation/mypage_gyminfo";
+		}
+		
+		//처음 gymList + gymVo
+		Map<String, Object> gymMap = gymService.gymInfo(sellNo);
+		model.addAttribute("gymMap", gymMap);
 		
 		return "mypage/mypage_resrvation/mypage_gyminfo";
 	}
@@ -135,7 +103,7 @@ public class GymController {
 		System.out.println("[GymController] bookAddForm()");
 		
 		//대관 등록할 체육관 정보 불러오기
-		GymVo gymVo = gymService.gymInfo(gymNo);
+		GymVo gymVo = gymService.gymOne(gymNo);
 		model.addAttribute("gymVo", gymVo);
 		
 		return "mypage/mypage_resrvation/mypage_bookingadd";
@@ -151,7 +119,7 @@ public class GymController {
 		return "redirect:/mypage/book/bookaddform?gymno="+bookVo.getGym_no();
 	}
 	
-	//대관 리스트 출력(ajax)
+	//대관 리스트 달력 출력(ajax)
 	@ResponseBody
 	@RequestMapping(value="/booklist", method= {RequestMethod.GET , RequestMethod.POST})
 	public List<BookingVo> bookList(@RequestParam("gymno") int gymno) {
@@ -172,34 +140,23 @@ public class GymController {
 		return "redirect:/mypage/book/bookmanage?gymno="+gymno;
 	}
 	
-	//대관 관리 페이지 경유지
-	@RequestMapping(value="/bookinfo", method= {RequestMethod.GET , RequestMethod.POST})
-	public String bookinfo(@RequestParam("no") int sellNo, HttpSession session) {
-		System.out.println("[GymController] bookinfo()>>> "+sellNo);
-		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-
-		GymVo vo = gymService.gymNo(sellNo);
-		
-		/*대관 등록된 체육관이 없을 경우
-		if(vo == null) { 
-			return "";
-		}
-		*/
-		int gymNo = vo.getGym_no();
-		
-		return "redirect:/mypage/book/bookmanage?no="+sellNo+"&gymno="+gymNo;
-	}
-	
 	//대관 관리 페이지
 	@RequestMapping(value="/bookmanage", method= {RequestMethod.GET , RequestMethod.POST})
-	public String bookManage(@RequestParam("no") int sellNo,
-			                 @RequestParam("gymno") int gymno, Model model) {
-		System.out.println("[GymController] bookManage()>>> "+sellNo+" / "+gymno);
+	public String bookManage(@RequestParam("no") int sellNo, 
+							@RequestParam("gymno") int gymNo,
+							Model model) {
+		System.out.println("[GymController] bookManage()>>> "+sellNo+" / "+gymNo);
 		
-		// gymList + gymVo
-		Map<String, Object> bookMap = gymService.bookManage(sellNo, gymno);
+		// gymList + gymVo (탭)
+		if(gymNo != 0) {
+			Map<String, Object> bookMap = gymService.bookManage(sellNo, gymNo);
+			model.addAttribute("bookMap", bookMap);
+			
+			return "mypage/mypage_resrvation/mypage_bookinglist";
+		}
 		
+		// gymList + gymVo (처음)
+		Map<String, Object> bookMap = gymService.bookManage(sellNo);
 		model.addAttribute("bookMap", bookMap);
 		
 		return "mypage/mypage_resrvation/mypage_bookinglist";

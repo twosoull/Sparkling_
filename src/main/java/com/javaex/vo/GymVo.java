@@ -13,6 +13,8 @@ public class GymVo {
 	private String gym_notice;
 	private String gym_event;
 	private String gym_date;
+	private String addressdetail;
+	private String roadaddress;
 	
 	// 영훈
 	private int avgPrice;
@@ -45,6 +47,21 @@ public class GymVo {
 	public GymVo() {
 	}
 
+	public GymVo(int gym_no, int sell_no, String gym_name, String gym_address, String gym_ph, String gym_time,
+			String gym_notice, String gym_event, String gym_date, String addressdetail, String roadaddress) {
+		this.gym_no = gym_no;
+		this.sell_no = sell_no;
+		this.gym_name = gym_name;
+		this.gym_address = gym_address;
+		this.gym_ph = gym_ph;
+		this.gym_time = gym_time;
+		this.gym_notice = gym_notice;
+		this.gym_event = gym_event;
+		this.gym_date = gym_date;
+		this.addressdetail = addressdetail;
+		this.roadaddress = roadaddress;
+	}
+	
 	public GymVo(int gym_no, int sell_no, String gym_name, String gym_address, String gym_ph, String gym_time,
 			String gym_notice, String gym_event, String gym_date) {
 		this.gym_no = gym_no;
@@ -241,18 +258,31 @@ public class GymVo {
 	public void setGym_date(String gym_date) {
 		this.gym_date = gym_date;
 	}
+	
+	public String getAddressdetail() {
+		return addressdetail;
+	}
+
+	public void setAddressdetail(String addressdetail) {
+		this.addressdetail = addressdetail;
+	}
+
+	public String getRoadaddress() {
+		return roadaddress;
+	}
+
+	public void setRoadaddress(String roadaddress) {
+		this.roadaddress = roadaddress;
+	}
 
 	@Override
 	public String toString() {
 		return "GymVo [gym_no=" + gym_no + ", sell_no=" + sell_no + ", gym_name=" + gym_name + ", gym_address="
 				+ gym_address + ", gym_ph=" + gym_ph + ", gym_time=" + gym_time + ", gym_notice=" + gym_notice
-				+ ", gym_event=" + gym_event + ", gym_date=" + gym_date + ", avgPrice=" + avgPrice + ", avgOnePrice="
-				+ avgOnePrice + ", addressHalf=" + addressHalf + ", gymImgSavename=" + gymImgSavename + ", gymImgType="
-				+ gymImgType + "]";
+				+ ", gym_event=" + gym_event + ", gym_date=" + gym_date + ", addressdetail=" + addressdetail
+				+ ", roadaddress=" + roadaddress + ", avgPrice=" + avgPrice + ", avgOnePrice=" + avgOnePrice
+				+ ", addressHalf=" + addressHalf + ", gymImgSavename=" + gymImgSavename + ", gymImgType=" + gymImgType
+				+ ", money=" + money + ", moneyHalf=" + moneyHalf + "]";
 	}
-
-	
-	
-
 	
 }

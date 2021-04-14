@@ -699,3 +699,71 @@ a:hover {
 	margin-bottom: 50px;
 }
 
+/* 주소api */
+#address #address_title {
+	height: 100px;
+	font-size: 16px;
+	vertical-align: top;
+}
+
+#address #address_content {
+	height: 100px;
+	font-size: 16px;
+	vertical-align: top;
+}
+#address #address_content {
+	height: 100px;
+	font-size: 16px;
+	vertical-align: top;
+}
+
+#address input {
+	width: 440px;
+	height: 10px;
+	padding: 8px 6px;
+	margin-bottom: 10px;
+	border: 1px solid #dddfe1;
+	border-radius: 0px;
+}
+
+#address #lastadd {
+	width: 434px;
+}
+
+#add_search {
+	display: flex;
+}
+
+#address_content1 #sample4_roadAddress {
+	width: 300px;
+}
+
+#address_content1 #sample4_postcode {
+	width: 100px;
+	margin-right: 20px;
+	vertical-align: top;
+}
+
+#address .da {
+	display: inline-block;
+}
+
+/*검색하기버튼*/
+#search_btn {
+	border-radius: 0px;
+	color: #000000;
+	background-color: white;
+	font-size: 13px;
+	padding: 3px 2px 3px 2px;
+	margin: 0px 15px 0px 15px;
+	text-decoration: none;
+	border: 1px solid #dddfe1;
+	width: 80px;
+	height: 30px;
+	cursor: pointer;
+}
+
+#search_btn:hover {
+	background: #d4d4d4;
+	text-decoration: none;
+}

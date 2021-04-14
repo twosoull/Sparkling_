@@ -44,8 +44,16 @@
 						
 						<c:forEach var="vo" items="${gymMap.gymList }">
 							<a href="${pageContext.request.contextPath}/mypage/book/gym?no=${vo.sell_no}&gymno=${vo.gym_no}">
-							<input type="hidden" name="gym_no" value="${vo.gym_no}">
-							<li id="tab${vo.gym_no}">${vo.gym_name }</li></a>
+							
+							<%-- 
+							<c:if test="${param.gymno eq vo.gym_no }">
+								<li class="tab_selected">${vo.gym_name }</li>
+							</c:if>
+							--%>
+							
+							<li class="tab">${vo.gym_name }</li>
+							</a>
+							
 						</c:forEach>
 						</ul>										
 					</div>
@@ -291,7 +299,7 @@
 	        results = regex.exec(location.search);
 	    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
-	
+	/*
 	//체육관 버튼 색변경 이벤트 유지
 	window.onload=function(){
 		
@@ -319,6 +327,7 @@
 			}
 		} 
 	}
+	*/
 
 </script>
 </html>

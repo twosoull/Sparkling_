@@ -93,7 +93,7 @@
 												</div>
 												<div class="da">
 													<input type="text" id="sample4_roadAddress"
-														name="roadAddress" placeholder="도로명주소" value="" readonly>
+														name="roadaddress" placeholder="도로명주소" value="" readonly>
 												</div>
 											</div>
 											<button type="button" id="search_btn">검색하기</button>
@@ -225,6 +225,7 @@
 
 	//주소 api
 
+	//입력 제한요건 (if문 아니고 배열에 넣어서 체크함)
 	$(".seller_regi_btn").on(
 			"click",
 			function() {
@@ -235,7 +236,7 @@
 
 				var no = $("[name='book_business_no']").val();
 
-				var roadAddress = $("[name='roadAddress']").val();
+				var roadAddress = $("[name='roadaddress']").val();
 
 				var addressdetail = $("[name='addressdetail']").val();
 

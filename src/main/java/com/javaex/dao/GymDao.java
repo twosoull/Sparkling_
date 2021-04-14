@@ -18,14 +18,24 @@ public class GymDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	//소유 체육관 리스트
-	public List<GymVo> gymSelectList(int sellNo) {
+	//소유 체육관번호 리스트
+	public List<GymVo> gymnoSelectList(int sellNo) {
 		System.out.println("[GymDao] gymSelectList()");
 		
-		List<GymVo> gymList = sqlSession.selectList("gym.gymSelectList", sellNo);
+		List<GymVo> gymList = sqlSession.selectList("gym.gymnoSelectList", sellNo);
 		System.out.println("[GymDao] gymList>>> "+gymList);
 		
 		return gymList;
+	}
+	
+	//소유 체육관 정보 리스트
+	public List<GymVo> gymSelectList(int sellNo){
+		System.out.println("[GymDao] gymSelectList()");
+		
+		List<GymVo> gyminfoList = sqlSession.selectList("gym.gymSelectList", sellNo);
+		System.out.println("[GymDao] gyminfoList>>> "+gyminfoList);
+		
+		return gyminfoList;
 	}
 	
 	//체육관 정보 불러오기
@@ -93,9 +103,9 @@ public class GymDao {
 	}
 	
 	//대관 리스트 불러오기
-	public List<BookingVo> bookSelectList(int gymno) {
+	public List<BookingVo> bookSelectList(int gymNo) {
 		System.out.println("[GymDao] bookGetList()");
-		List<BookingVo> bList = sqlSession.selectList("gym.bookSelectList", gymno);
+		List<BookingVo> bList = sqlSession.selectList("gym.bookSelectList", gymNo);
 		System.out.println("대관리스트 출력테스트> "+bList);
 		return bList;
 	}
@@ -106,6 +116,7 @@ public class GymDao {
 		sqlSession.delete("gym.bookDelete", bookno);
 	}
 
+	//대관 리스트 예약자 불러오기
 	public List<BBuyVo> selectBBuyUser(int bookNo) {
 		System.out.println("[GymDao] selectBBuyUser");
 		

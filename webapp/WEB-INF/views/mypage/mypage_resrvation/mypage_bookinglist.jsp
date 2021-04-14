@@ -43,12 +43,11 @@
 					<!-- 탭부분(다수 체육관 소유 시) pill형식으로 표시 -->
 					<div class="own_gym_tab">
 						<ul>
-						
-						<c:forEach var="vo" items="${bookMap.gymList }">
-							<a href="${pageContext.request.contextPath}/mypage/book/bookmanage?no=${vo.sell_no}&gymno=${vo.gym_no}">
-							<input type="hidden" name="gym_no" value="${vo.gym_no}">
-							<li id="tab${vo.gym_no}">${vo.gym_name }</li></a>
-						</c:forEach>
+							<c:forEach var="vo" items="${bookMap.gymList }">
+								<a href="${pageContext.request.contextPath}/mypage/book/bookmanage?no=${vo.sell_no}&gymno=${vo.gym_no}">
+								<input type="hidden" name="gym_no" value="${vo.gym_no}">
+								<li id="tab${vo.gym_no}">${vo.gym_name }</li></a>
+							</c:forEach>
 						</ul>										
 					</div>
 					
@@ -127,7 +126,7 @@
 										<td>
 											<c:if test="${vo.booking_state eq '대기'}">
 												<a href="${pageContext.request.contextPath }/mypage/book/bookremove?bookno=${vo.booking_no }&gymno=${bookMap.gymVo.gym_no}">
-													<button class="booking_manage_btn" type="button">삭제</button>
+													<button class="booking_manage_btn" type="button" id="delbtn">삭제</button>
 												</a>
 											</c:if>
 										</td>
@@ -204,6 +203,12 @@
 		console.log(en);
 		
 		alert(st+"~"+en);
+ 	});
+ 	
+ 	//삭제 전 경고
+ 	$("#delbtn").on("click", function(){
+ 		alert("삭제하시겠습니까?");
+ 		return true;
  	});
 
 		 

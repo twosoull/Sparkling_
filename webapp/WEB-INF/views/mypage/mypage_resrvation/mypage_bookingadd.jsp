@@ -192,6 +192,15 @@
 
 	} 
 	
+	//등록 제한걸기
+	$("#btnUpload").on("click", function(){
+		var booking_price = $("[name='booking_price']").val();
+		
+		if(booking_price == null || booking_price == ""){
+			alert("요금을 입력해 주세요");
+			return false;
+		}
+	});
 
 	////////////////대관 리스트 출력///////////////////////
 
