@@ -62,7 +62,7 @@ public class SparringService {
 		System.out.println("vo2 :" + profileVo);
 
 		// selectKey로 생성된 profileNo값 받기
-		
+
 		int profileNo = profileVo.getProfileNo();
 
 		/********* 주종목(주특기) event 인서트 ********/
@@ -94,50 +94,49 @@ public class SparringService {
 
 				// 받아온 profileNo 넣기
 				rVo.setProfileNo(profileNo);
-				
-				
-				if(rVo.getRecordName() == null) {
+
+				if (rVo.getRecordName() == null) {
 					System.out.println("네임");
 					rVo.setRecordName(" ");
 				}
-				
-				if(rVo.getRecordType().equals("대회분류")) {
+
+				if (rVo.getRecordType().equals("대회분류")) {
 					System.out.println("대회분류");
 					rVo.setRecordType("");
 				}
-				
-				if(rVo.getRecordDate() == null) {
+
+				if (rVo.getRecordDate() == null) {
 					System.out.println("출전연도 null");
 					rVo.setRecordDate(" ");
 				}
-				if(rVo.getRecordDate().equals("출전연도")) {
+				if (rVo.getRecordDate().equals("출전연도")) {
 					System.out.println("출전연도");
 					rVo.setRecordDate("");
 				}
-				
-				if(rVo.getRecordMatch().equals("순위")) {
+
+				if (rVo.getRecordMatch().equals("순위")) {
 					System.out.println("순위");
 					rVo.setRecordMatch("");
 				}
-				
-				if(!rVo.getRecordEvent().equals("종목")) {
+
+				if (!rVo.getRecordEvent().equals("종목")) {
 					System.out.println("종목");
-				System.out.println(rVo.getRecordName());
-				sparringDao.insertRecord(rVo);
+					System.out.println(rVo.getRecordName());
+					sparringDao.insertRecord(rVo);
 				}
 
 			}
 		}
-		
-		/**알고리즘 넣기***/
-		double userLevel = algo(profileVo, recordVo,userNo);
-		
+
+		/** 알고리즘 넣기 ***/
+		double userLevel = algo(profileVo, recordVo, userNo);
+
 		UserVo userVo = new UserVo();
-		
+
 		userVo.setUser_no(userNo);
 		userVo.setUser_level(userLevel);
 		int count = sparringDao.updateUserLevel(userVo);
-		
+
 		return count;
 	}
 
@@ -180,7 +179,7 @@ public class SparringService {
 		pMap.put("profileVo", profileVo);
 		pMap.put("eventList", eventList);
 		pMap.put("recordList", recordList);
-		
+
 		System.out.println(recordList);
 		return pMap;
 	}
@@ -257,36 +256,34 @@ public class SparringService {
 
 		// 오늘부터 10일 날짜구하기
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		
+
 		String dd = sdf.format(cal.getTime());
-		
+
 		String[] dd1 = dd.split("/");
-		
+
 		String dayA = dd1[2];
-		
-		int k= 0 ;
+
+		int k = 0;
 		int month = cal.get(Calendar.MONTH) + 1;
 		for (int i = 0; i < 10; i++) {
 			int year = cal.get(Calendar.YEAR);
 			int day = cal.get(Calendar.DAY_OF_MONTH) + i;
 			int dayofWeek = cal.get(Calendar.DAY_OF_WEEK) + i;
-			
-			
+
 			int d1 = cal.get(Calendar.DAY_OF_MONTH);
-			cal.set(year,month-1,d1);
+			cal.set(year, month - 1, d1);
 			int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-			
-			if(day == lastDay+1) {
+
+			if (day == lastDay + 1) {
 				k = 0;
 				month = month + 1;
 			}
-	        if(day > lastDay) {
-	        	k += 1;
-	        	day = 0;
-	        	day += k;
-	        }
-	        
-	        	
+			if (day > lastDay) {
+				k += 1;
+				day = 0;
+				day += k;
+			}
+
 			if (dayofWeek > 7) {
 				if (dayofWeek > 14) {
 					dayofWeek = dayofWeek - 14;
@@ -318,42 +315,39 @@ public class SparringService {
 				today = "토";
 				break;
 			}
-			
-			
+
 			System.out.println(i + "=" + year + "." + month + "." + day + "." + today);
 
 			/*********** 변경할수있음 **************/
-			
+
 			// day가 1일일경우 숫자상 1로 찍히기 때문에 10보다 작은수는 0을 붙여 01 02 식으로바꿔준다
 			String dayString = "";
-			
+
 			String date = "";
-			
+
 			// 이렇게하는 이유는 검색을 03월 이렇게 되는데 month는 그냥 3 이기때문
 			if (month < 10) {
-				if(day <10) {
-					dayString = "0"+day;
-					
+				if (day < 10) {
+					dayString = "0" + day;
+
 					date = year + "-0" + month + "-" + dayString;
-				}else {
-					
+				} else {
+
 					date = year + "-0" + month + "-" + day;
 				}
 			} else {
-				if(day <10) {
-					dayString = "0"+day;
-					
+				if (day < 10) {
+					dayString = "0" + day;
+
 					date = year + "-0" + month + "-" + dayString;
-				}else {
-					
+				} else {
+
 					date = year + "-" + month + "-" + day;
 				}
 			}
-			
+
 			DayVo dayVo = new DayVo(year, month, day, today, date);
-			
-			
-			
+
 			dayList.add(dayVo);
 		}
 
@@ -446,18 +440,18 @@ public class SparringService {
 			sparringDao.insertBBuy(bBuyVo);
 
 			/** 관장에게 알람 **/
-			
+
 			AlarmVo alarmVo = sparringDao.selectSellno(booking_no);
 			System.out.println(alarmVo.getUser_no());
 			System.out.println(alarmVo.getAlarm_title());
 
 			AlarmContentVo alVo = new AlarmContentVo();
-			
+
 			alarmVo.setAlarm_content(alVo.getGym_reservation());
-			
+
 			System.out.println("셀넘버 :" + alarmVo.getSell_no());
-			alarmDao.inserbookingAlarm(alarmVo); //o
-			
+			alarmDao.inserbookingAlarm(alarmVo); // o
+
 			/* 시합등록자에게 알람 */
 			BBuyVo bbuyVo = sparringDao.selectBBUYSC(bBuyVo.getB_buy_no());
 			int UN = bbuyVo.getUser_no();
@@ -529,58 +523,69 @@ public class SparringService {
 		}
 
 	}
-	
-	// by 영훈 
+
+	// by 영훈
 	// 스파링 리스트 + 스파링 리스트의 검색기능 (searchMatchVo 사용)
 	// 스파링 리스트(21-03-25) 나에게맞는 매칭 (21-03-30) 검색(04-10)
 	public List<BBuyVo> match(int userNo, SearchMatchVo searchMatchVo) {
 		System.out.println("[Service] : match");
-		
-		
-		//검색으로오는 ex) 09:00~12:00 를 
-		//booking테이블의 booking_start와 booking_end 로 나눠주기
+		// by 영훈
+		// 검색으로오는 ex) 09:00~12:00 를
+		// booking테이블의 booking_start와 booking_end 로 나눠주기
+
 		System.out.println(searchMatchVo);
-		if(!StringUtils.isEmpty(searchMatchVo.getTime())) {
-			
-			System.out.println("시간 나누기");
-			if(!"".equals(searchMatchVo.getTime())) {
-				System.out.println("시간 나누기2");
-			
-				String time =  searchMatchVo.getTime();
-				
-				Map<String,String> timeMap = takeStartEndTime(time);
-				
+		// by 영훈
+		// searchMatchVo.getTime()null이 아니라면
+		// 검색이 아닌 일반리스트로 들어올때는 null로 표시되기 때문에
+		// &&이 아닌 거쳐가는 식으로 if을 써줬다
+		if (!StringUtils.isEmpty(searchMatchVo.getTime())) {
+			// by 영훈
+			// 시간을 넣지않고 검색시에는 빈값으로 오기때문에 equals를 사용했다
+			if (!"".equals(searchMatchVo.getTime())) {
+				System.out.println("시간 나누기");
+				String time = searchMatchVo.getTime();
+				// by 영훈
+				// 09:00~12:00 로 떨어지는 값은 split을 이용해 반으로 나눈다
+				Map<String, String> timeMap = takeStartEndTime(time);
+
 				searchMatchVo.setBooking_start(timeMap.get("bookingStart"));
 				searchMatchVo.setBooking_end(timeMap.get("bookingEnd"));
 				System.out.println(searchMatchVo.getBooking_start());
 				System.out.println(searchMatchVo.getBooking_end());
 			}
 		}
-		//booking테이블의 booking_start와 booking_end 로 나눠주기 end
+		// by 영훈
+		// booking테이블의 booking_start와 booking_end 로 나눠주기 end
 		System.out.println("통과");
-		
+
 		List<BBuyVo> bBuyList = null;
-		if(userNo == 0) {
-			//일반 매칭리스트 or 스파링 일반 검색 기능
+		if (userNo == 0) {
+			// by 영훈
+			// 일반 매칭리스트 or 스파링 일반 검색 기능
 			bBuyList = sparringDao.selectBBuyList(searchMatchVo);
-		}else {
-			//내게 맞는 매칭 검색은 userNo가 있다
-			
+		} else {
+			// by 영훈
+			// 내게 맞는 매칭 검색은 userNo가 있다
+
 			UserVo userVo = sparringDao.selectOneUserVo(userNo);
 			BBuyVo leVo = new BBuyVo();
 			leVo.setUser_no(userNo);
 			double userLevel = 0;
 			double highLevel = 0;
 			double rowLevel = 0;
-			// 몇부터 몇으로 할지 정하기 총 3가지 까지는 만들어주기
-			if(userVo != null) {
-				
+
+			// by 영훈
+			// 몇부터 몇으로 할지 정하기 총 3가지 까지는 만든다
+			// 팀에서는 3가지로 정했기에 개인적인 생각으로는 페이지에도
+			// 하중상 정도의 난이도를 정하면 좋았을 것 같다(하지만 단순함이 조금 덜해질수도있다)
+			if (userVo != null) {
+
 				userLevel = userVo.getUser_level();
 				System.out.println("유저레벨 :" + userLevel);
-				highLevel = userLevel + 100; 
+				highLevel = userLevel + 100;
 				rowLevel = userLevel - 100;
-				
-				if(rowLevel <0 ) {
+
+				if (rowLevel < 0) {
 					rowLevel = 0;
 				}
 				leVo.setHighLevel(highLevel);
@@ -589,66 +594,69 @@ public class SparringService {
 				System.out.println("로우레벨 :" + rowLevel);
 				bBuyList = sparringDao.selectBBuyList(leVo);
 				System.out.println("1단계 선택 = " + bBuyList);
-				
-				//레벨에 맞는 사용자가 없을 경우 다시 검색
-				if(bBuyList == null) {
-					highLevel = userLevel + 200; 
+
+				// by 영훈
+				// 레벨에 맞는 사용자가 없을 경우 다시 검색
+				if (bBuyList == null) {
+					highLevel = userLevel + 200;
 					rowLevel = userLevel - 200;
-					
-					if(rowLevel <0 ) {
+
+					if (rowLevel < 0) {
 						rowLevel = 0;
 					}
 					leVo.setHighLevel(highLevel);
 					leVo.setRowLevel(rowLevel);
-				
+
 					bBuyList = sparringDao.selectBBuyList(leVo);
 					System.out.println("2단계 선택 =" + bBuyList);
-					
-					//한번더 null 일경우 다시 넓게 검색
-					if(bBuyList == null) {
-						highLevel = userLevel + 500; 
+
+					// by 영훈
+					// 한번더 null 일경우 다시 넓게 검색
+					if (bBuyList == null) {
+						highLevel = userLevel + 500;
 						rowLevel = userLevel - 500;
-						
-						if(rowLevel <0 ) {
+
+						if (rowLevel < 0) {
 							rowLevel = 0;
 						}
 						leVo.setHighLevel(highLevel);
 						leVo.setRowLevel(rowLevel);
-					
+
 						bBuyList = sparringDao.selectBBuyList(leVo);
 						System.out.println("3단계 선택" + bBuyList);
-						
-						
+
 					}
-					
 				}
-				
-				
-				
-				
-				
+
 			}
-			
-		}
-		
-		if(bBuyList != null) {
-		for (int i = 0; i < bBuyList.size(); i++) {
-			int profileNo = bBuyList.get(i).getProfile_no();
-
-			/*
-			 * api 주소 부분 생기면 수정해야할 부분 String[] addressHalf=
-			 * bBuyList.get(i).getGym_address().split("\\s");
-			 * 
-			 * bBuyList.get(i).setAddressHalf(addressHalf[1]);
-			 * 
-			 */
-			bBuyList.get(i).setAddressHalf(bBuyList.get(i).getGym_address());
-			// 여기까지임
-			List<EventVo> eventList = sparringDao.selectListEvent(profileNo);
-
-			bBuyList.get(i).setEventList(eventList);
 
 		}
+
+		// by 영훈
+		// 매치리스트로 뿌려주는 사용자의 주특기 목록을 불러온다
+		// Vo 안에 들어가는 List이기에 꼬일 걱정은 없다
+		if (bBuyList != null) {
+			for (int i = 0; i < bBuyList.size(); i++) {
+				int profileNo = bBuyList.get(i).getProfile_no();
+
+				/*
+				 * [by다현 - 카카오지도 API 04-03] -> by영훈 21-04-04 (insert에서 해결) 혹시 모를 변동으로 남겨놓음
+				 * 
+				 * by영훈 21-03-25) 대비코드
+				 * 
+				 * api 주소 부분 생기면 수정해야할 부분 String[] addressHalf=
+				 * bBuyList.get(i).getGym_address().split("\\s");
+				 * 
+				 * bBuyList.get(i).setAddressHalf(addressHalf[1]);
+				 * 
+				 */
+				bBuyList.get(i).setAddressHalf(bBuyList.get(i).getGym_address());
+				// 여기까지임
+				List<EventVo> eventList = sparringDao.selectListEvent(profileNo);
+
+				bBuyList.get(i).setEventList(eventList);
+
+			}
 		}
 		return bBuyList;
 
@@ -674,7 +682,6 @@ public class SparringService {
 		String time = profileVo.getTime();
 		String day = profileVo.getDay();
 
-		
 		String address = profileVo.getAddress();
 
 		bBuyVo.setBooking_no(bookingNo);
@@ -907,7 +914,7 @@ public class SparringService {
 		// 해당 bookingNo를 결제한다
 
 		map.put("bBuyVo", vo);
-		
+
 		return map;
 	}
 
@@ -1194,7 +1201,6 @@ public class SparringService {
 	}
 
 	public void accept(int partnerUserNo, int bookingNo) {
-		
 
 		System.out.println("[service]: accept()");
 
@@ -1209,10 +1215,8 @@ public class SparringService {
 		map.put("userNo", partnerUserNo);
 		sparringDao.updateAcceptBBuysucc(map);
 
-
-
 	}
-	
+
 	public void matching_competition(int partnerUserNo, int bookingNo) {
 		AlarmContentVo alarmContentVo = new AlarmContentVo();
 		/** 대관등록자가 수락하기'' 신청자에게 알람발송 **/
@@ -1236,7 +1240,7 @@ public class SparringService {
 
 	}
 
-	public void acceptpay(BBuyVo bBuyVo, int bbuyno, int bookingNo , int userNo, int partneruserno) {
+	public void acceptpay(BBuyVo bBuyVo, int bbuyno, int bookingNo, int userNo, int partneruserno) {
 		System.out.println("[Dao]: accept() : acceptpay");
 
 		int num = bBuyVo.getB_buy_price().lastIndexOf(".");
@@ -1256,29 +1260,28 @@ public class SparringService {
 		bBuyVo.setB_buy_no(bbuyno);
 		bBuyVo.setBooking_no(bookingNo);
 		sparringDao.updateBBuy2(bBuyVo);
-		
-		
-		/* 매치등록자가 수락하고 결제하기 알람발송 "결제완료되었습니다"**/
-		
+
+		/* 매치등록자가 수락하고 결제하기 알람발송 "결제완료되었습니다" **/
+
 		AlarmContentVo alarmContentVo = new AlarmContentVo();
-		
+
 		AlarmVo alVo = sparringDao.selectSellno(bookingNo);
 
 		alVo.setAlarm_content(alarmContentVo.payment_complete);
-		
+
 		alVo.setUser_no(userNo);
 		alarmDao.inserbookingAlarm(alVo);
 		/******/
-		/*****등록자에게 알람발송 매치가 성사되었습니다 ****/
-		
+		/***** 등록자에게 알람발송 매치가 성사되었습니다 ****/
+
 		alVo.setAlarm_content(alarmContentVo.matching_successful);
 		alarmDao.insertMatchAlarm(alVo);
-		
-		/****신청자에게 매치가 성사되었습니다****/
+
+		/**** 신청자에게 매치가 성사되었습니다 ****/
 		alVo.setUser_no(partneruserno);
 		alarmDao.insertMatchAlarm(alVo);
-		
-		/**시설관리에게 알람발송 예약된 대관상품의 결제가 완료되었습니다**/
+
+		/** 시설관리에게 알람발송 예약된 대관상품의 결제가 완료되었습니다 **/
 		alVo = sparringDao.selectSellno(bookingNo);
 		alVo.setAlarm_content(alarmContentVo.booking_payment_complete02);
 		alarmDao.inserbookingAlarm(alVo);
@@ -1313,28 +1316,27 @@ public class SparringService {
 
 		// 부킹 결제완료로 바꿔주기
 		sparringDao.updateBooking3(bookingNo);
-		
-		/******등록자에게 수락을 받은 신청자가 결제하기 버튼을 눌렀을때******/
-		
+
+		/****** 등록자에게 수락을 받은 신청자가 결제하기 버튼을 눌렀을때 ******/
+
 		AlarmContentVo alarmContentVo = new AlarmContentVo();
-		
+
 		AlarmVo alVo = sparringDao.selectSellno(bookingNo);
 
 		alVo.setAlarm_content(alarmContentVo.matching_successful);
-		
+
 		alVo.setUser_no(partneruserno);
 		alarmDao.insertMatchAlarm(alVo);
-		
-		
+
 		alVo.setUser_no(userNo);
 		alarmDao.insertMatchAlarm(alVo);
-		
-		/****신청자에게 결제완료****/
+
+		/**** 신청자에게 결제완료 ****/
 		alVo.setAlarm_content(alarmContentVo.payment_complete);
 		alVo.setUser_no(userNo);
 		alarmDao.inserbookingAlarm(alVo);
-		/**시설관리에게 알람발송 예약된 대관상품의 결제가 완료되었습니다**/
-		
+		/** 시설관리에게 알람발송 예약된 대관상품의 결제가 완료되었습니다 **/
+
 		alVo = sparringDao.selectSellno(bookingNo);
 		alVo.setAlarm_content(alarmContentVo.booking_payment_complete01);
 		alarmDao.inserbookingAlarm(alVo);
@@ -1366,14 +1368,14 @@ public class SparringService {
 		// 대기자를 다시 신청자로 변경
 		sparringDao.updatebbuyBack(bookingno);
 
-		/**시합 등록자가 수락한 신청자가 취소하기 클릭 알람발송**/
-		
+		/** 시합 등록자가 수락한 신청자가 취소하기 클릭 알람발송 **/
+
 		AlarmContentVo alarmContentVo = new AlarmContentVo();
-		
+
 		AlarmVo alarmVo = sparringDao.selectSellno(bookingno);
 
-		//alarmVo.setAlarm_content(alarmContentVo.matching_cancled);
-		alarmVo.setUser_no(userNo); //등록자넘버
+		// alarmVo.setAlarm_content(alarmContentVo.matching_cancled);
+		alarmVo.setUser_no(userNo); // 등록자넘버
 
 		alarmDao.insertMatchAlarm(alarmVo);
 	}
@@ -1381,50 +1383,50 @@ public class SparringService {
 	public List<BBuyVo> myMatch(int userno) {
 		System.out.println("[Service ] : myMatch");
 		System.out.println("유저넘버 : " + userno);
-			
+
 		List<BBuyVo> bList = sparringDao.selectBBuyList3(userno);
-		
+
 		System.out.println(bList);
-		
-		for(int i = 0 ; i <bList.size(); i++) {
+
+		for (int i = 0; i < bList.size(); i++) {
 			int bookingNo = bList.get(i).getBooking_no();
 			String player = bList.get(i).getB_buy_player_state();
-			
-			if(player.equals("신청자") || player.equals("선택자") || player.equals("탈락자")) {
-				System.out.println("내 상태 : " + player );
-				
+
+			if (player.equals("신청자") || player.equals("선택자") || player.equals("탈락자")) {
+				System.out.println("내 상태 : " + player);
+
 				List<UserVo> nList = sparringDao.selectListVictim(bookingNo);
-				
+
 				System.out.println("상대 : " + nList);
 				bList.get(i).setUserList(nList);
-				
-			}else if(player.equals("시합등록자") ||player.equals("시합결정자")) {
+
+			} else if (player.equals("시합등록자") || player.equals("시합결정자")) {
 				System.out.println("내 상태 : " + player);
 				List<UserVo> nList2 = sparringDao.selectListVictim2(bookingNo);
 				System.out.println("상대 : " + nList2);
 				bList.get(i).setUserList(nList2);
 			}
-			
+
 			BBuyVo bvo = sparringDao.selectBBuyuserno(bookingNo);
-			
-			if(bvo != null) {
-				
+
+			if (bvo != null) {
+
 				bList.get(i).setU_no(bvo.getU_no());
 				bList.get(i).setB_buy_no(bvo.getB_buy_no());
 			}
-			
+
 		}
-		
+
 		System.out.println(bList);
-		
+
 		return bList;
-	
+
 	}
 
 	public double algo(ProfileVo profileVo, RecordVo recordVo, int userNo) {
 		System.out.println("algo");
 		double userLevel = 0;
-		
+
 		String career = profileVo.getCareer();
 
 		String major = profileVo.getMajor();
@@ -1432,27 +1434,26 @@ public class SparringService {
 		int exp = profileVo.getExp();
 
 		String recentlyExer = profileVo.getRecentlyExer();
-		
-		if(career.equals("프로")) {
+
+		if (career.equals("프로")) {
 			userLevel += 2000;
-			
+
 			System.out.println("프로 userLevel = " + userLevel);
-		}else if(career.equals("아마추어")) {
+		} else if (career.equals("아마추어")) {
 			userLevel += 0;
 			System.out.println("아마추어 userLevel = " + userLevel);
 		}
-		
-		if(!major.equals(null)&&!major.isEmpty()) {
+
+		if (!major.equals(null) && !major.isEmpty()) {
 			userLevel += 300;
-			
+
 			System.out.println("전공userLevel = " + userLevel);
 		}
-		
-		if(exp >=20) {
+
+		if (exp >= 20) {
 			userLevel += 20;
 		}
-		
-		
+
 		for (int i = 0; i < recordVo.getRecordList().size(); i++) {
 			RecordVo reVo = recordVo.getRecordList().get(i);
 			String recordEvent = reVo.getRecordEvent();
@@ -1463,122 +1464,118 @@ public class SparringService {
 			if (recordEvent.equals("1") || recordEvent.equals("2")) {
 
 				userLevel += boxkickbox(recordDate, recordMatch, recordType);
-				
+
 				System.out.println("복싱 & 킥복싱userLevel = " + userLevel);
 			} else if (recordEvent.equals("3")) {
-				
+
 				userLevel += mixbox(recordDate, recordMatch, recordType);
 				System.out.println("종합 격투기userLevel = " + userLevel);
 			} else if (recordEvent.equals("4")) {
-				
+
 				userLevel += jujitsu(recordDate, recordMatch, recordType);
 
 				System.out.println("주짓수userLevel = " + userLevel);
 			}
 
 		}
-		//end
-		
-		if(recentlyExer.equals("주 5회 이상")) {
+		// end
+
+		if (recentlyExer.equals("주 5회 이상")) {
 			userLevel = userLevel * 1.1;
-		}else if(recentlyExer.equals("주 3회 이상")) {
+		} else if (recentlyExer.equals("주 3회 이상")) {
 			userLevel = userLevel * 1;
-		}else if(recentlyExer.equals("주 1회 이상")) {
+		} else if (recentlyExer.equals("주 1회 이상")) {
 			userLevel = userLevel * 0.9;
-		}else if(recentlyExer.equals("월 1회 이상")) {
+		} else if (recentlyExer.equals("월 1회 이상")) {
 			userLevel = userLevel * 0.7;
-			
-		}else if(recentlyExer.equals("3달 이상 안함")) {
+
+		} else if (recentlyExer.equals("3달 이상 안함")) {
 			userLevel = userLevel * 0.5;
-			
-		}else if(recentlyExer.equals("6달 이상 안함")) {
+
+		} else if (recentlyExer.equals("6달 이상 안함")) {
 			userLevel = userLevel * 0.3;
 		}
-		
+
 		System.out.println(userLevel);
 		double matchLevel = matchScoreLevel(userNo);
-		
+
 		userLevel += matchLevel;
-		
+
 		return userLevel;
 	}
-	
+
 	public double matchScoreLevel(int userNo) {
-		
-		
+
 		double halfResult = 0;
 		double count = 0;
 		double result = 0;
-		//먼저 MatchScore를 List로 가져온다
+		// 먼저 MatchScore를 List로 가져온다
 		List<MatchScoreVo> mScoreList = sparringDao.selectListMatchScore(userNo);
 		System.out.println("mScoreList =" + mScoreList);
-		if(!mScoreList.isEmpty()) {
-			
-			for(int i = 0; i < mScoreList.size(); i++) {
+		if (!mScoreList.isEmpty()) {
+
+			for (int i = 0; i < mScoreList.size(); i++) {
 				MatchScoreVo mScoreVo = mScoreList.get(i);
-				//스파링수에 비해 이긴수를 구한다
+				// 스파링수에 비해 이긴수를 구한다
 				double score = mScoreVo.getScore();
 				double win = mScoreVo.getWin();
 				String matchAttri = mScoreVo.getMatchAttri();
-				
-				
-				double winExp = Math.round((win / score)*100.0)/100.0;
-			
-				
-				if(matchAttri.equals("물")) {
+
+				double winExp = Math.round((win / score) * 100.0) / 100.0;
+
+				if (matchAttri.equals("물")) {
 					halfResult += 0.9;
-				}else if(matchAttri.equals("불")) {
+				} else if (matchAttri.equals("불")) {
 					halfResult += 1.0;
-				}else if(matchAttri.equals("핵")) {
+				} else if (matchAttri.equals("핵")) {
 					halfResult += 1.1;
 				}
-				
+
 				System.out.println("halfResult =" + halfResult);
-				
+
 				count++;
 			}
-			halfResult =  Math.round((halfResult / count)*100.0)/100.0;
-			
-			System.out.println("halfResult /= count" +halfResult);
-			
-			//퍼센트로 곱하기 위해 100을 곱해준다
-			
+			halfResult = Math.round((halfResult / count) * 100.0) / 100.0;
+
+			System.out.println("halfResult /= count" + halfResult);
+
+			// 퍼센트로 곱하기 위해 100을 곱해준다
+
 			halfResult = halfResult * 100;
-			
-			//총 스파일 전적에 따라 부여되는 값 
-			if(1<= count && count <=5) {
-				result = 0.5* halfResult;
-			}else if(5 < count && count <=10) {
+
+			// 총 스파일 전적에 따라 부여되는 값
+			if (1 <= count && count <= 5) {
+				result = 0.5 * halfResult;
+			} else if (5 < count && count <= 10) {
 				result = 1 * halfResult;
-			}else if(10 < count && count <=15) {
+			} else if (10 < count && count <= 15) {
 				result = 2 * halfResult;
-			}else if(15 < count && count <=20) {
+			} else if (15 < count && count <= 20) {
 				result = 3 * halfResult;
-			}else if(20 < count && count <=30) {
+			} else if (20 < count && count <= 30) {
 				result = 4 * halfResult;
-			}else if(30 < count && count <=40) {
+			} else if (30 < count && count <= 40) {
 				result = 6 * halfResult;
-			}else if(40 < count && count <=50) {
+			} else if (40 < count && count <= 50) {
 				result = 8 * halfResult;
-			}else if(50 < count && count <=60) {
-				result =  10 * halfResult;
-			}else if(60 < count && count <=70) {
-				result =  12 * halfResult;
-			}else if(70 < count && count <=80) {
-				result =  14 * halfResult;
-			}else if(80 < count && count <=90) {
-				result =  16 * halfResult;
-			}else if(90 < count && count <=100) {
-				result =  18 * halfResult;
-			}else if(100 <= count) {
-				result =  20 * halfResult;
+			} else if (50 < count && count <= 60) {
+				result = 10 * halfResult;
+			} else if (60 < count && count <= 70) {
+				result = 12 * halfResult;
+			} else if (70 < count && count <= 80) {
+				result = 14 * halfResult;
+			} else if (80 < count && count <= 90) {
+				result = 16 * halfResult;
+			} else if (90 < count && count <= 100) {
+				result = 18 * halfResult;
+			} else if (100 <= count) {
+				result = 20 * halfResult;
 			}
-			System.out.println("Match SCORE result = "+ result);
+			System.out.println("Match SCORE result = " + result);
 		}
-		
+
 		return result;
 	}
-	
 
 	public int boxkickbox(String recordDate, String recordMatch, String recordType) {
 
@@ -1586,9 +1583,9 @@ public class SparringService {
 		System.out.println("복싱, 킥복싱");
 
 		if (recordType.equals("세계선수권대회")) {
-			
+
 			System.out.println("세계선수권대회 ");
-			
+
 			if (recordDate.equals("4년 주기 대회")) {
 				System.out.println("4년 주기 대회 ");
 				if (recordMatch.equals("우승")) {
@@ -1865,7 +1862,7 @@ public class SparringService {
 		}
 		return userLevel;
 	}
-	
+
 	public int jujitsu(String recordDate, String recordMatch, String recordType) {
 		int userLevel = 0;
 		System.out.println("주짓수");
@@ -1984,22 +1981,21 @@ public class SparringService {
 			}
 
 		}
-		return  userLevel;
+		return userLevel;
 	}
 
 	public String gymType(int bookingNo) {
 		System.out.println("[gymType] :  gymType");
-		
+
 		BBuyVo bbuyVo = sparringDao.selectGymType(bookingNo);
-		
+
 		System.out.println("종목은?" + bbuyVo.getGym_event());
-		
+
 		String event = bbuyVo.getGym_event();
 		return event;
 	}
 
 	public void profileWrite(ProfileVo profileVo) {
-		
 
 		String major = profileVo.getMajor();
 		System.out.println("major" + major);
@@ -2014,16 +2010,13 @@ public class SparringService {
 
 		sparringDao.insertProfile23(profileVo);
 		System.out.println("vo2 :" + profileVo);
-		
-
 
 		/********* 주종목(주특기) event 인서트 ********/
-		
+
 		int profileNo = profileVo.getProfileNo();
 		List<EventVo> eList = profileVo.getEventList();
 		for (int i = 0; i < eList.size(); i++) {
 
-		
 			System.out.println(eList.get(i));
 
 			EventVo eventVo = new EventVo();
@@ -2034,95 +2027,87 @@ public class SparringService {
 			sparringDao.insertEvent(eventVo);
 
 		}
-		
+
 		/*********** 공식기록 record 인서트 *********/
-		
+
 		List<RecordVo> rList = profileVo.getRecordList();
 		if (rList.get(0).getRecordType() != "") {
 			for (int i = 0; i < rList.size(); i++) {
 				System.out.println("??");
 				RecordVo rVo = rList.get(i);
-				
+
 				System.out.println(rVo);
 				// 받아온 profileNo 넣기
 				rVo.setProfileNo(profileNo);
-				
-				
-				if(rVo.getRecordName() == null) {
+
+				if (rVo.getRecordName() == null) {
 					rVo.setRecordName(" ");
 				}
-				
-				if(rVo.getRecordType().equals("대회분류")) {
+
+				if (rVo.getRecordType().equals("대회분류")) {
 					rVo.setRecordType("");
 				}
-				
-				if(rVo.getRecordDate().equals("출전연도")) {
+
+				if (rVo.getRecordDate().equals("출전연도")) {
 					rVo.setRecordDate("");
 				}
-				
-				if(rVo.getRecordMatch().equals("순위")) {
+
+				if (rVo.getRecordMatch().equals("순위")) {
 					rVo.setRecordMatch("");
 				}
-				
-				if(!rVo.getRecordEvent().equals("종목")) {
-					
-				System.out.println(rVo.getRecordName());
-				sparringDao.insertRecord(rVo);
+
+				if (!rVo.getRecordEvent().equals("종목")) {
+
+					System.out.println(rVo.getRecordName());
+					sparringDao.insertRecord(rVo);
 				}
 
 			}
 		}
-		
+
 		RecordVo recordVo = new RecordVo();
 		recordVo.setRecordList(rList);
-		
-		
-		/**알고리즘 넣기***/
+
+		/** 알고리즘 넣기 ***/
 		int userNo = profileVo.getUserNo();
 		double userLevel = algo(profileVo, recordVo, userNo);
-		
-		
+
 		UserVo userVo = new UserVo();
-		
+
 		userVo.setUser_no(userNo);
 		userVo.setUser_level(userLevel);
 		int count = sparringDao.updateUserLevel(userVo);
-		
-		
-		
+
 	}
 
 	public BBuyVo sparringEva(BBuyVo bbuyVo) {
 		System.out.println("[Service] : sparringEva");
-		
-		
-		//내가 아닌 상대를 구하는 Dao
+
+		// 내가 아닌 상대를 구하는 Dao
 		BBuyVo bVo = sparringDao.selectOnePartnerBBuy(bbuyVo);
 		System.out.println(bVo);
-		
+
 		return bVo;
 	}
 
 	public void evaWrite(MatchScoreVo matchScoreVo) {
 		System.out.println("[Service] : evaWrite");
-		
+
 		sparringDao.insertMatchScore(matchScoreVo);
-		
+
 	}
-	
-	
-	/*******************일반 메소드**********************/
-	
-	public Map<String,String> takeStartEndTime(String time) {
-		
-			String[] timeArray = time.split("~");
-			
-			Map<String,String> timeMap = new HashMap<String,String>();
-			
-			timeMap.put("bookingStart",timeArray[0]);
-			timeMap.put("bookingEnd",timeArray[1]);
+
+	/******************* 일반 메소드 **********************/
+
+	public Map<String, String> takeStartEndTime(String time) {
+
+		String[] timeArray = time.split("~");
+
+		Map<String, String> timeMap = new HashMap<String, String>();
+
+		timeMap.put("bookingStart", timeArray[0]);
+		timeMap.put("bookingEnd", timeArray[1]);
 		return timeMap;
 	}
-	
-	
+
 }
