@@ -212,7 +212,8 @@
 
 							<div class="swiper-wrapper rn_wrapper">
 
-
+								<!-- by영훈 21-03-24
+								list[0]인 오늘 날짜만 먼저 뿌려준 뒤 반복문으로 list[1]부터 반복해 뿌려준다 -->
 								<div id="swiper-con" class="swiper-slide  rn_slide ">
 									<div class="swiper-color box10 box-color" data-no="${gAVo.gym_no}" data-date="${gAVo.dayList[0].date}">
 										<div>${gAVo.dayList[0].day }</div>
@@ -426,12 +427,14 @@
 		
 		hiddenBookingNo(bookingNo1);
 	});
-	//날짜 클릭하면 색변경
 	
+	//by영훈 (21-03-24)
+	//날짜를 클릭하면 해당 날짜의 대관상품 리스트가 나온다
 	$(".swiper-slide").on("click",".swiper-color",function(){
 		
 		console.log("클릭");
 		
+		//날짜 클릭하면 색변경
 		if ($(".swiper-color").hasClass("box-color")) { 
 			// active class 제거
 			  $(".swiper-color").removeClass("box-color");
@@ -440,29 +443,32 @@
 		}
 		$(this).addClass("box-color");
 		
+		//클릭한 날짜의 date와 gymNo를 가져온다
 		var date = $(this).data("date");
 		var gymNo = $(this).data("no");
 		console.log(date);
 		console.log(gymNo);
+		
+		//ajax를 통해 값을 주고 받는다
 		$.ajax({
 
 			url : "${pageContext.request.contextPath }/sparring/api/bookinglist", //컨트롤러의 url과 파라미터
 			type : "post", // 겟 포스트
-			//contentType : "application/json",
 			data : {
 				date : date,
 				gymNo : gymNo
-				
 			},
 
-			//dataType : "json",
 			success : function(bookingL) { //성공시
 				console.log(bookingL);
-				
+				//대관리스트의 길이의 값을 변수에 담는다
 				var size = $(bookingL).length;
 				
+				//기존의 대관 리스트를 지워준다 
 				$("#booking_list_0").html(" ");
 				console.log(size);
+				
+				//booking() 메소드를 통해 대관리스트를 뿌려준다
 				for(var i = 0; i <size; i++){
 					booking(bookingL[i]);
 				}
@@ -514,11 +520,12 @@
 		
 		$("#main_img_1").html(str);
 	}
-	
+	//by영훈
 	//부킹리스트 변경
 	function booking(bookingVo){
 		var price2 = bookingVo.booking_price;
 		
+		//사용자는 원금의 반을 먼저 계산하기 때문에 반가격을 표시한다
 		price2 = price2 / 2;
 		
 		price2 = addComma(price2);

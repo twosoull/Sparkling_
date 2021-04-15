@@ -232,6 +232,7 @@ public class SparringService {
 
 	}
 
+	// by 영훈 (21-03-24)
 	public GymVo rentDetail(int gymNo) {
 		// TODO Auto-generated method stub
 		System.out.println("[Service] : rentDetail()");
@@ -247,50 +248,51 @@ public class SparringService {
 
 		// 2end
 
+		// by영훈(21-03-24 1차 21-04-15 2차 코드수정 정리)
 		// 오늘부터 10일 날짜구하기
 		// 3. 날짜 뿌리기전 오늘기준으로 10일째의 날짜와 요일을 구한다
 		Calendar cal = Calendar.getInstance();
 		String[] weekDay = { "일", "월", "화", "수", "목", "금", "토" };
 
-		// 월,일,요일을 넣을 vo의  리스트
+		// 월,일,요일을 넣을 vo의 리스트
 		List<DayVo> dayList = new ArrayList<DayVo>();
-		
+
 		// 값을 옮길때 사용한 빈 변수
 		int box = 0;
 		// 달이 0부터 시작하기 때문에 항상 + 1 이 붙는다
-		int month = cal.get(Calendar.MONTH) + 1; //월
-		int year = cal.get(Calendar.YEAR); //년도
+		int month = cal.get(Calendar.MONTH) + 1; // 월
+		int year = cal.get(Calendar.YEAR); // 년도
 		// 오늘에서 10일후 까지의 날짜를 구해야하기 때문에 10번 반복한다
 		for (int i = 0; i < 10; i++) {
-			int day = cal.get(Calendar.DAY_OF_MONTH) + i; //일
-			int dayofWeek = cal.get(Calendar.DAY_OF_WEEK) + i; //요일
-			
-			//오늘을 기준으로 항상 심어준다. (위에 것을 쓰지 않는 이유는 값에 +i 값이 들어가기 때문) 
+			int day = cal.get(Calendar.DAY_OF_MONTH) + i; // 일
+			int dayofWeek = cal.get(Calendar.DAY_OF_WEEK) + i; // 요일
+
+			// 오늘을 기준으로 항상 심어준다. (위에 것을 쓰지 않는 이유는 값에 +i 값이 들어가기 때문)
 			int dayOftoday = cal.get(Calendar.DAY_OF_MONTH);
 			cal.set(year, month - 1, dayOftoday);
-			
-			//오늘을 기준으로 월의 마지막 날을 구한다
+
+			// 오늘을 기준으로 월의 마지막 날을 구한다
 			int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-			
+
 			if (month == 12 & day == lastDay + 1) {
-				//반복된 day의 값이 월의 마지막일을 넘기고 월이 12월이라면  월을 1로 바꾸고 년도를 +1 한다
+				// 반복된 day의 값이 월의 마지막일을 넘기고 월이 12월이라면 월을 1로 바꾸고 년도를 +1 한다
 				box = 0;
 				month = 1;
 				year += 1;
-			}else if (day == lastDay + 1) {
-				//반복된 day의 값이 월의 마지막일을 넘겼다면  월을 +1 시켜준다
+			} else if (day == lastDay + 1) {
+				// 반복된 day의 값이 월의 마지막일을 넘겼다면 월을 +1 시켜준다
 				box = 0;
 				month = month + 1;
 			}
-			//반복된 값이 월의 마지막일보다 크다면 day를 0으로 만든 뒤 비어있던 box로 +1씩 날짜를 세어
-			//day에 넣어준다
+			// 반복된 값이 월의 마지막일보다 크다면 day를 0으로 만든 뒤 비어있던 box로 +1씩 날짜를 세어
+			// day에 넣어준다
 			if (day > lastDay) {
 				box += 1;
 				day = 0;
 				day += box;
 			}
-			
-			//요일은 switch-case 문에 맞게 늘 재조립해준다
+
+			// 요일은 switch-case 문에 맞게 늘 재조립해준다
 			if (dayofWeek > 7) {
 				if (dayofWeek > 14) {
 					dayofWeek = dayofWeek - 14;
@@ -327,9 +329,9 @@ public class SparringService {
 
 			/*********** 변경할수있음 **************/
 			// day가 1일일경우 숫자상 1로 찍히기 때문에 10보다 작은수는 0을 붙여 01 02 식으로바꿔준다
-			// 달력에서 DB로 인서트 되는 값은 2021-04-05 검색하기 위해 모양을 맞춰줘야한다 
+			// 달력에서 DB로 인서트 되는 값은 2021-04-05 검색하기 위해 모양을 맞춰줘야한다
 			// 현재 ex) 2021-4-5
-			// 원하는 결과값 ex) 2021-04-05 
+			// 원하는 결과값 ex) 2021-04-05
 			String dayString = "";
 			String date = "";
 			// 이렇게하는 이유는 검색을 03월 이렇게 되는데 month는 그냥 3 이기때문
@@ -1294,7 +1296,8 @@ public class SparringService {
 		alarmDao.inserbookingAlarm(alVo);
 	}
 
-	public void acceptPartner(int partneruserno, int bookingNo, BBuyVo bBuyVo, int bbuyno, int bookingNo2, int mybbuyno, int userNo) {
+	public void acceptPartner(int partneruserno, int bookingNo, BBuyVo bBuyVo, int bbuyno, int bookingNo2, int mybbuyno,
+			int userNo) {
 		System.out.println("[Service] : acceptPartner");
 
 		int num = bBuyVo.getB_buy_price().lastIndexOf(".");
