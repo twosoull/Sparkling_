@@ -3,14 +3,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="bbuy">
-	
-	
-	
-	 <resultMap type="map" id="scoreMap">
-        <result column="sumscore" property="sumScore"/>
-        <result column="sumwin" property="sumWin"/>
-    </resultMap>
-	
+
+
+
+	<resultMap type="map" id="scoreMap">
+		<result column="sumscore" property="sumScore" />
+		<result column="sumwin" property="sumWin" />
+	</resultMap>
+
 	<select id="selectOneUserVo" parameterType="int" resultType="UserVo">
 		<![CDATA[
 			select user_level
@@ -18,12 +18,12 @@
 			where user_no = #{user_no}	
 			
 		]]>
-		
-	
-	
+
+
+
 	</select>
-	
-	
+
+
 	<select id="selecteListBBuySearchLevel" parameterType="BBuyVo" resultType="BBuyVo">
 	<![CDATA[
 
@@ -76,12 +76,12 @@
 	
 	
 	]]>
-	
-	
-	
+
+
+
 	</select>
-	    
-    <update id="updateUserLevel" parameterType="UserVo">
+
+	<update id="updateUserLevel" parameterType="UserVo">
     <![CDATA[
     	 update users
  		 set user_level = #{user_level}
@@ -89,9 +89,9 @@
     
     
     ]]>
-    </update>
-    
-    
+	</update>
+
+
 	<select id="selectBBUYSC" parameterType="int" resultType="BBuyVo">
 		<![CDATA[
 			select user_no
@@ -99,14 +99,14 @@
 			where b_buy_no = #{bbuyno}
 		
 		]]>
-		
-	</select>    
+
+	</select>
 	<insert id="insertBBuy" parameterType="BBuyVo">
-	
-			<selectKey keyProperty="b_buy_no" resultType="int" order="BEFORE">
-				select seq_bbuy_no.nextval
-				from dual
-			</selectKey>
+
+		<selectKey keyProperty="b_buy_no" resultType="int" order="BEFORE">
+			select seq_bbuy_no.nextval
+			from dual
+		</selectKey>
 	
 	 <![CDATA[
 			insert into bbuy
@@ -126,13 +126,13 @@
 	 
 	 ]]>
 	</insert>
-	
+
 	<insert id="insertBBuy2" parameterType="BBuyVo">
-	
-			<selectKey keyProperty="b_buy_no" resultType="int" order="BEFORE">
-				select seq_bbuy_no.nextval
-				from dual
-			</selectKey>
+
+		<selectKey keyProperty="b_buy_no" resultType="int" order="BEFORE">
+			select seq_bbuy_no.nextval
+			from dual
+		</selectKey>
 
 	
 	<![CDATA[
@@ -141,77 +141,77 @@
 		        #{user_no},
 	]]>
 		<choose>
-		        <when test="booking_no != null and booking_no != 0 ">
-					${booking_no},
-				</when>
-				<otherwise>
-		        		null,
-				</otherwise>
+			<when test="booking_no != null and booking_no != 0 ">
+				${booking_no},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
 		</choose>
-		        #{profile_no},
-		        null,
-		        null,
-		        null,
-		        <choose>
-		        	<when test="b_buy_player_state != null and b_buy_player_state != '' ">
-		        	#{b_buy_player_state},
-					
-					</when>
-					<otherwise>
-		        		null,
-				</otherwise>
-				</choose>
+		#{profile_no},
+		null,
+		null,
+		null,
+		<choose>
+			<when test="b_buy_player_state != null and b_buy_player_state != '' ">
+				#{b_buy_player_state},
+
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
 				<![CDATA[
 		        sysdate,
 		        		
 				]]>
-		
-			
-				 <choose>
-		        	<when test="b_buy_address != null and b_buy_address != '' ">
-		        	
-		       			 #{b_buy_address},
-					
-					</when>
-					<otherwise>
-		        		null,
-				</otherwise>
-				</choose>
-				
-				<choose>
-		        	<when test="b_buy_day != null and b_buy_day!= '' ">
-		        	
-		       			 #{b_buy_day},
-					</when>
-					<otherwise>
-		        		null,
-				</otherwise>
-				</choose>
-				<choose>
-		        	<when test="b_buy_time != null and b_buy_time!= '' ">
-		        	
-		        		#{b_buy_time},
-					</when>
-					<otherwise>
-		        		null,
-				</otherwise>
-				</choose>
-					<choose>
-		        	<when test="b_buy_event != null and b_buy_event != '' ">
-		        	
-		        		#{b_buy_event}
-					</when>
-					<otherwise>
-		        		null
-				</otherwise>
-				</choose>
+
+
+		<choose>
+			<when test="b_buy_address != null and b_buy_address != '' ">
+
+				#{b_buy_address},
+
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+
+		<choose>
+			<when test="b_buy_day != null and b_buy_day!= '' ">
+
+				#{b_buy_day},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="b_buy_time != null and b_buy_time!= '' ">
+
+				#{b_buy_time},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="b_buy_event != null and b_buy_event != '' ">
+
+				#{b_buy_event}
+			</when>
+			<otherwise>
+				null
+			</otherwise>
+		</choose>
 	<![CDATA[
 		       
 		        )		
 	]]>
-		
+
 	</insert>
-	
+
 	<select id="selectListBBuy" resultType="BBuyVo">
 		<![CDATA[
 			select b.b_buy_no,
@@ -257,70 +257,116 @@
 			and b.b_buy_player_state = '시합등록자'
 			order by b_buy_no desc
 		
-		]]>	
+		]]>
 
 	</select>
-	
-	
+
+
 	<!-- 영훈[21-04-10] 일반리스트 + 검색기능 -->
-	<select id="selectListBBuynSearch" parameterType="SearchMatchVo" resultType="BBuyVo">
+	<select id="selectListBBuynSearch" parameterType="map" resultType="BBuyVo">
 		<![CDATA[
-			select b.b_buy_no,
-			       b.profile_no,
-			       b.user_no,
-			       p.nickname,
-			       p.career,
-			       b.b_buy_price,
-			       b.b_buy_player_state,
-			       b.b_buy_address,
-       			   b.b_buy_event,
-       			   b.b_buy_time,
-       			   b.b_buy_day,
-			       k.booking_no ,
-			       k.booking_date,
-			       k.booking_start,
-			       k.booking_end,
-			       k.gym_name,
-			       k.gym_address,
-			       k.gym_event,
-			       k.gym_img_savename
-			from bbuy b , (select p.profile_no,
-			                      p.user_no,
-			                      u.user_no,
-			                      p.career,
-			                      u.nickname
-			               from profile p,users u
-			               where p.user_no = u.user_no)p,(select b.booking_no,
-			                                                     b.booking_start,
-			                                                     b.booking_end,
-			                                                     b.booking_date,
-			                                                     g.gym_name,
-			                                                     g.gym_address,
-			                                                     g.gym_event,
-			                                                     i.gym_img_savename,
-			                                                     i.gym_img_type
-			                                              from booking b , gym g ,gymImg i
-			                                              where b.gym_no = g.gym_no
-			                                              and g.gym_no = i.gym_no
-			                                              and i.gym_img_type = 'main')k
-			where b.profile_no = p.profile_no(+)
-			and b.booking_no = k.booking_no(+)
-			and b.b_buy_player_state = '시합등록자'
-		]]>	
-		<if test="date != null and date != '' ">
-            and booking_date = #{date}
+		select rn.rown,
+               rn.b_buy_no,
+               rn.profile_no,
+               rn.user_no,
+               rn.nickname,
+               rn.career,
+               rn.b_buy_price,
+               rn.b_buy_player_state,
+               rn.b_buy_address,
+               rn.b_buy_event,
+               rn.b_buy_time,
+               rn.b_buy_day,
+               rn.booking_no ,
+               rn.booking_date,
+               rn.booking_start,
+               rn.booking_end,
+               rn.gym_name,
+               rn.gym_address,
+               rn.gym_event,
+               rn.gym_img_savename      
+        from(select rownum as rown,
+                    r.b_buy_no,
+                    r.profile_no,
+                    r.user_no,
+                    r.nickname,
+                    r.career,
+                    r.b_buy_price,
+                  	r.b_buy_player_state,
+                  	r.b_buy_address,
+                  	r.b_buy_event,
+                  	r.b_buy_time,
+                  	r.b_buy_day,
+                  	r.booking_no ,
+                  	r.booking_date,
+                  	r.booking_start,
+                  	r.booking_end,
+                  	r.gym_name,
+                 	r.gym_address,
+                  	r.gym_event,
+                  	r.gym_img_savename
+           	from(select b.b_buy_no,
+                       	b.profile_no,
+                       	b.user_no,
+                       	p.nickname,
+                       	p.career,
+                       	b.b_buy_price,
+                       	b.b_buy_player_state,
+                       	b.b_buy_address,
+                       	b.b_buy_event,
+                       	b.b_buy_time,
+                       	b.b_buy_day,
+                       	k.booking_no ,
+                       	k.booking_date,
+                       	k.booking_start,
+                       	k.booking_end,
+                       	k.gym_name,
+                       	k.gym_address,
+                       	k.gym_event,
+                       	k.gym_img_savename
+                 from bbuy b , (select p.profile_no,
+                                       p.user_no,
+                                       u.user_no,
+                                       p.career,
+                                       u.nickname
+                                from profile p,users u
+                                where p.user_no = u.user_no)p,(select b.booking_no,
+                                                                      b.booking_start,
+                                                                      b.booking_end,
+                                                                      b.booking_date,
+                                                                      g.gym_name,
+                                                                      g.gym_address,
+                                                                      g.gym_event,
+                                                                      i.gym_img_savename,
+                                                                      i.gym_img_type
+                                                               from booking b , gym g ,gymImg i
+                                                               where b.gym_no = g.gym_no
+                                                               and g.gym_no = i.gym_no
+                                                               and i.gym_img_type = 'main')k
+                 where b.profile_no = p.profile_no(+)
+				 and b.booking_no = k.booking_no(+)
+				 and b.b_buy_player_state = '시합등록자'
+		]]>
+		<if test="searchMatchVo != null">
+			<if test="searchMatchVo.date != null and searchMatchVo.date != '' ">
+				 and booking_date = #{searchMatchVo.date}
+			</if>
+			<if test="searchMatchVo.booking_start != null and searchMatchVo.booking_start != '' ">
+			<![CDATA[
+	             and (booking_start >= #{searchMatchVo.booking_start} and booking_end <= #{searchMatchVo.booking_end})
+			]]>
+			</if>
+			<if test="searchMatchVo.search != null and searchMatchVo.search != '' ">
+				 and (gym_name like '%'||#{searchMatchVo.search}||'%' or gym_address like '%'||#{searchMatchVo.search}||'%')
+			</if>
 		</if>
-		<if test="booking_start != null and booking_start != '' ">
 		<![CDATA[
-            and (booking_start >= #{booking_start} and booking_end <= #{booking_end})
-		]]>	
-		</if>
-		<if test="search != null and search != '' ">
-            and (gym_name like '%'||#{search}||'%' or gym_address like '%'||#{search}||'%')
-		</if>
-		<![CDATA[
-			order by b_buy_no desc
-		]]>	
+				 order by b_buy_no desc)r
+            order by rownum asc)rn
+        where rn.rown between #{startRnum} and #{endRnum} 
+		]]>
+
+
 
 	</select>
 	<select id="selectListVictim" parameterType="int" resultType="UserVo">
@@ -334,9 +380,9 @@
 	
 	
 	]]>
-	
+
 	</select>
-	
+
 	<select id="selectBBuyuserno" parameterType="int" resultType="BBuyVo">
 	<![CDATA[
 		    select user_no as u_no,
@@ -346,9 +392,9 @@
             and (b_buy_player_state = '시합결정자' or b_buy_player_state = '시합등록자')	
 	
 	]]>
-	
+
 	</select>
-	
+
 	<select id="selectListVictim2" parameterType="int" resultType="UserVo">
 	<![CDATA[
 				select u.nickname
@@ -358,9 +404,9 @@
 	            and (b.b_buy_player_state = '신청자' or b.b_buy_player_state = '선택자')	
 	
 	]]>
-	
-	
-	
+
+
+
 	</select>
 	<select id="selectBBuyList3" parameterType="int" resultType="BBuyVo">
 		<![CDATA[
@@ -412,7 +458,7 @@
 		
 		
 		]]>
-	
+
 	</select>
 	<select id="selectOneBBuy" parameterType="BBuyVo" resultType="BBuyVo">
 		<![CDATA[
@@ -440,7 +486,7 @@
 			and b_buy_no = #{b_buy_no}
 			
 		]]>
-	
+
 	</select>
 	<select id="selectOneMatchScore" parameterType="int" resultType="BBuyVo">
 		<![CDATA[
@@ -449,7 +495,7 @@
 			        count(*) as scoreCount
 			from matchscore
 			where user_no = #{user_no}
-		]]>	
+		]]>
 	</select>
 	<select id="selectListBBuy2" parameterType="int" resultType="BBuyVo">
 	<![CDATA[
@@ -476,7 +522,7 @@
 			
 	]]>
 
-	
+
 	</select>
 	<select id="selectOnebbuy2" parameterType="BBuyVo" resultType="BBuyVo">
 	
@@ -509,7 +555,7 @@
 		
 		
 		]]>
-	
+
 	</select>
 	<update id="updateBBuy" parameterType="BBuyVo">
 	<![CDATA[
@@ -517,9 +563,9 @@
 			   set booking_no = #{booking_no}
 			   where b_buy_no = #{b_buy_no}	
 	]]>
-	
+
 	</update>
-	
+
 	<select id="selectOneBBuyuser" parameterType="map" resultType="BBuyVo">
 	<![CDATA[
 			SELECT b_buy_no,
@@ -531,11 +577,11 @@
 			
 	
 	]]>
-	
-	
-	
+
+
+
 	</select>
-	
+
 	<insert id="insertBBuyForm" parameterType="BBuyVo">
 		<![CDATA[
 			insert into bbuy
@@ -554,10 +600,10 @@
 			        sysdate)
 				
 		]]>
-		
-	
+
+
 	</insert>
-	
+
 	<update id="updateAcceptBBuyfail" parameterType="int">
 	<![CDATA[
 		update bbuy
@@ -567,7 +613,7 @@
 	
 	]]>
 	</update>
-	
+
 	<update id="updateAcceptBBuysucc" parameterType="map">
 	<![CDATA[
 		update bbuy
@@ -576,10 +622,10 @@
 		and booking_no = #{bookingNo}
 	
 	
-	]]>	
-	
+	]]>
+
 	</update>
-	
+
 	<update id="updateBBuy2" parameterType="BBuyVo">
 	
 	<![CDATA[
@@ -592,9 +638,9 @@
 		and booking_no = #{booking_no}	
 	
 	]]>
-	
+
 	</update>
-	
+
 	<update id="updateBBuy3" parameterType="BBuyVo">
 	
 	<![CDATA[
@@ -604,7 +650,7 @@
 		and booking_no = #{booking_no}	
 	
 	]]>
-	
+
 	</update>
 	<update id="updateBBuy4" parameterType="BBuyVo">
 	
@@ -618,10 +664,10 @@
 		and booking_no = #{booking_no}	
 	
 	]]>
-	
-	
+
+
 	</update>
-	
+
 	<update id="updateBBuyrefuse" parameterType="int">
 	
 	<![CDATA[
@@ -630,7 +676,7 @@
 		where b_buy_no = #{bbuyNo}	
 	
 	]]>
-	
+
 	</update>
 	<delete id="deleteBBuy" parameterType="int">
 	<![CDATA[
@@ -639,9 +685,9 @@
         WHERE B_BUY_NO = #{bbuyno}
 	
 	]]>
-	
+
 	</delete>
-	
+
 	<update id="updatebbuyBack" parameterType="int">
 	
 	<![CDATA[
@@ -652,10 +698,10 @@
 	
 	
 	]]>
-	
-	
+
+
 	</update>
-	
+
 	<select id="selectGymType" parameterType="int" resultType="BBuyVo">
 	<![CDATA[
 		select g.gym_no,
@@ -666,7 +712,7 @@
 	
 	
 	]]>
-	
+
 	</select>
 	<select id="selectOnePartnerBBuy" parameterType="BBuyVo" resultType="BBuyVo">
 	<![CDATA[
@@ -689,10 +735,10 @@
 		 and u.user_no = b.user_no
 	
 	]]>
-	
+
 	</select>
-	
-	<insert id="insertMatchScore" parameterType="MatchScoreVo" >
+
+	<insert id="insertMatchScore" parameterType="MatchScoreVo">
 	<![CDATA[
 		insert into matchscore
 		 values(SEQ_MATCHSCORE_NO.nextval,
@@ -704,9 +750,9 @@
 		 #{matchAttri}
 		 )	
 	]]>
-	
+
 	</insert>
-	
+
 	<select id="selectListMatchScore" parameterType="int" resultType="MatchScoreVo">
 	<![CDATA[
 		select score,
@@ -716,7 +762,48 @@
 		 where user_no = #{userNo}
 	
 	]]>
-	
-	
+
+
+	</select>
+
+	<!-- by영훈 21-04-16 전체글 갯수의 양 -->
+	<select id="bbuy.selectBBuyCount" parameterType="SearchMatchVo" resultType="int">
+			<![CDATA[
+			select count(*)
+			from bbuy b , (select p.profile_no,
+			                      p.user_no,
+			                      u.user_no,
+			                      p.career,
+			                      u.nickname
+			               from profile p,users u
+			               where p.user_no = u.user_no)p,(select b.booking_no,
+			                                                     b.booking_start,
+			                                                     b.booking_end,
+			                                                     b.booking_date,
+			                                                     g.gym_name,
+			                                                     g.gym_address,
+			                                                     g.gym_event,
+			                                                     i.gym_img_savename,
+			                                                     i.gym_img_type
+			                                              from booking b , gym g ,gymImg i
+			                                              where b.gym_no = g.gym_no
+			                                              and g.gym_no = i.gym_no
+			                                              and i.gym_img_type = 'main')k
+			where b.profile_no = p.profile_no(+)
+			and b.booking_no = k.booking_no(+)
+			and b.b_buy_player_state = '시합등록자'
+		]]>
+		<if test="date != null and date != '' ">
+			and booking_date = #{date}
+		</if>
+		<if test="booking_start != null and booking_start != '' ">
+		<![CDATA[
+            and (booking_start >= #{booking_start} and booking_end <= #{booking_end})
+		]]>
+		</if>
+		<if test="search != null and search != '' ">
+			and (gym_name like '%'||#{search}||'%' or gym_address like '%'||#{search}||'%')
+		</if>
+
 	</select>
 </mapper>

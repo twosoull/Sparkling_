@@ -60,7 +60,7 @@
 			<!-- Mach Card -->
 			<section class="mach-card">
 				<!-- card 1ex -->
-				<c:forEach items="${bBuyList}" var="vo">
+				<c:forEach items="${map.bbMap.bBuyList}" var="vo">
 				<a href="${pageContext.request.contextPath }/sparring/matchdetail?bbuyno=${vo.b_buy_no}&userno=${vo.user_no}&sessionuser=${authUser.user_no}&bookingno=${vo.booking_no}">
 				<!-- 
 				 <a href="${pageContext.request.contextPath }/sparring/matchdetail?bbuyno=${vo.b_buy_no}&userno=${vo.user_no}">

@@ -111,7 +111,7 @@
 			<!-- Mach Card -->
 			<section class="mach-card">
 				<!-- card 1ex -->
-				<c:forEach items="${bBuyList}" var="vo">
+				<c:forEach items="${map.bBuyList}" var="vo">
 				<a href="${pageContext.request.contextPath }/sparring/matchdetail?bbuyno=${vo.b_buy_no}&userno=${vo.user_no}&sessionuser=${authUser.user_no}&bookingno=${vo.booking_no}">
 				<!-- 
 				 <a href="${pageContext.request.contextPath }/sparring/matchdetail?bbuyno=${vo.b_buy_no}&userno=${vo.user_no}">
@@ -226,19 +226,19 @@
 			<!-- Paging-->
 			<section id="paging">
 				<ul>
-					<li><a href="">◀</a></li>
-					<li><a href="">1</a></li>
-					<li><a href="">2</a></li>
-					<li><a href="">3</a></li>
-					<li><a href="">4</a></li>
-					<li class="active"><a href="">5</a></li>
-					<li><a href="">6</a></li>
-					<li><a href="">7</a></li>
-					<li><a href="">8</a></li>
-					<li><a href="">9</a></li>
-					<li><a href="">10</a></li>
-					<li><a href="">▶</a></li>
-				</ul>
+							<c:if test="${map.pMap.prev == true}">
+								<li><a href="${pageContext.request.contextPath}/sparring/match?crtPage=${map.pMap.startPageBtnNo-1}&date=${param.searchMatchVo.date}&time=&search=${param.searchMatchVo.date}">◀</a></li>
+							</c:if>
+							
+							<c:forEach begin="${map.pMap.startPageBtnNo}" end="${map.pMap.endPageBtnNo}" 
+							step="1" var="page">
+								<li><a href="${pageContext.request.contextPath}/sparring/match?crtPage=${page}&date=${param.searchMatchVo.date}&time=&search=${param.searchMatchVo.date}">${page}</a></li>
+							</c:forEach>
+							
+							<c:if test="${map.pMap.next == true }">
+								<li><a href="${pageContext.request.contextPath}/sparring/match?crtPage=${map.pMap.endPageBtnNo+1}&date=${param.searchMatchVo.date}&time=&search=${param.searchMatchVo.date}">▶</a></li>
+							</c:if>
+						</ul>
 
 
 				<div class="clear"></div>

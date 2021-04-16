@@ -39,6 +39,7 @@ public class SparringController {
 	@RequestMapping(value = "/match", method = { RequestMethod.GET, RequestMethod.POST })
 	public String match(Model model ,
 			 @RequestParam(value="userno", required=false, defaultValue="0")int userno,
+			 @RequestParam(value="crtPage", required=false, defaultValue="0")int crtPage,
 			 @ModelAttribute SearchMatchVo searchMatchVo ) {
 		System.out.println("[Controller] : match()");
 		System.out.println("유저넘버 :" + userno);
@@ -48,10 +49,10 @@ public class SparringController {
 		System.out.println("검색어" + searchMatchVo.getSearch());
 		
 		
-		List<BBuyVo> bBuyList = sparringService.match(userno , searchMatchVo);
+		Map<String, Object> map = sparringService.match(userno , searchMatchVo,crtPage);
 		
 		
-		model.addAttribute("bBuyList",bBuyList);
+		model.addAttribute("map",map);
 		
 		return "matching/sparringList";
 	}

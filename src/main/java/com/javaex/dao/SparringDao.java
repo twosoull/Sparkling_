@@ -178,10 +178,10 @@ public class SparringDao {
 	// by 영훈 
 	// 스파링 리스트 + 스파링 리스트의 검색기능 (searchMatchVo 사용)
 	// 스파링 리스트(21-03-25) 검색(04-10)
-	public List<BBuyVo> selectBBuyList(SearchMatchVo searchMatchVo) {
+	public List<BBuyVo> selectBBuyList(Map<String, Object> selectBBuyMap) {
 			System.out.println("[Dao] : selectBBuyList(SearchMatchVo)");
 			
-			return sqlSession.selectList("bbuy.selectListBBuynSearch",searchMatchVo);
+			return sqlSession.selectList("bbuy.selectListBBuynSearch",selectBBuyMap);
 			
 			
 	}
@@ -438,6 +438,14 @@ public class SparringDao {
 		
 		return sqlSession.selectList("bbuy.selectListMatchScore",userNo);
 		
+	}
+
+	public int selectBBuyCount(SearchMatchVo searchMatchVo) {
+		System.out.println("[Dao] : selectBBuyCount");
+		
+		int count = sqlSession.selectOne("bbuy.selectBBuyCount",searchMatchVo);
+		
+		return count;
 	}
 
 	

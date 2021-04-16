@@ -36,11 +36,12 @@ public class MainController {
 		System.out.println("[cnt]메인페이지");
 		
 		
-		//by영훈 (04-10)
+		//by영훈 (04-10) (04-17 수정, 페이징기능으로 8개만 보일수 있게)
 		//메인페이지 매치리스트 (메인페이지에서 검색기능은 사용안하지만, 오류제거를 위해 searchMatchVo가 사용)
-		List<BBuyVo> bBuyList = sparringService.match(userno,searchMatchVo);
 		
-		model.addAttribute("bBuyList",bBuyList);
+		Map<String, Object>  bbMap= sparringService.match(userno,searchMatchVo, 1);
+		
+		model.addAttribute("bBuyList",bbMap);
 		
 		//by영훈 (04-13) 세림님 코드 추가함
 		//메인페이지 쇼핑리스트
@@ -48,7 +49,7 @@ public class MainController {
 		List<ProductVo> storeList = storeService.storeList(search);
 		
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("bBuyList",bBuyList);
+		map.put("bbMap",bbMap);
 		map.put("storeList", storeList);
 		
 		model.addAttribute("map", map);
