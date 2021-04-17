@@ -227,16 +227,16 @@
 			<section id="paging">
 				<ul>
 							<c:if test="${map.pMap.prev == true}">
-								<li><a href="${pageContext.request.contextPath}/sparring/match?crtPage=${map.pMap.startPageBtnNo-1}&date=${param.searchMatchVo.date}&time=&search=${param.searchMatchVo.date}">◀</a></li>
+								<li><a href="${pageContext.request.contextPath}/sparring/match?crtPage=${map.pMap.startPageBtnNo-1}&date=${map.searchMatchVo.date}&time=&search=${map.searchMatchVo.search}">◀</a></li>
 							</c:if>
 							
 							<c:forEach begin="${map.pMap.startPageBtnNo}" end="${map.pMap.endPageBtnNo}" 
 							step="1" var="page">
-								<li><a href="${pageContext.request.contextPath}/sparring/match?crtPage=${page}&date=${param.searchMatchVo.date}&time=&search=${param.searchMatchVo.date}">${page}</a></li>
+								<li><a href="${pageContext.request.contextPath}/sparring/match?crtPage=${page}&date=${map.searchMatchVo.date}&time=&search=${map.searchMatchVo.search}">${page}</a></li>
 							</c:forEach>
 							
 							<c:if test="${map.pMap.next == true }">
-								<li><a href="${pageContext.request.contextPath}/sparring/match?crtPage=${map.pMap.endPageBtnNo+1}&date=${param.searchMatchVo.date}&time=&search=${param.searchMatchVo.date}">▶</a></li>
+								<li><a href="${pageContext.request.contextPath}/sparring/match?crtPage=${map.pMap.endPageBtnNo+1}&date=${map.searchMatchVo.date}&time=&search=${map.searchMatchVo.search}">▶</a></li>
 							</c:if>
 						</ul>
 

@@ -184,12 +184,39 @@ public class SparringService {
 		return pMap;
 	}
 
-	public List<GymVo> rent() {
+	public Map<String, Object> rent(int userNo, SearchMatchVo searchMatchVo, int crtPage) {
 		System.out.println("[Service] : rent()");
-
-		List<GymVo> gymList = sparringDao.selectListGym();
+		//by 영훈 21-04-17
+		/*************페이징***************/
+		//페이징 당 글 갯수
+		int listCnt = 9;
+		
+		//SQL에서 rownum을 이용해 값을 받을 계획이니 
+		//between 값을 구한다
+		//먼저 crtPage가 0일 경우  1로 바꾼다 (페이지를 클릭한게 아니기에 첫페이지로 지정한다)
+		crtPage =(crtPage > 0) ? crtPage : (crtPage = 1);
+		//첫페이지는 1~8 두번째 페이지는 9~17로 listCnt가 변해도 값을 구할 수 있게 만든다
+		int startRnum = (crtPage-1) * listCnt + 1 ;
+		int endRnum = startRnum + listCnt - 1;
+		
+		System.out.println("스타트 = " + startRnum );
+		System.out.println("끝 = " + endRnum );
+		
+		Map<String,Object> selectGymMap = new HashMap<String,Object>();
+		
+		selectGymMap.put("startRnum",startRnum);
+		selectGymMap.put("endRnum",endRnum);
+		selectGymMap.put("searchMatchVo",searchMatchVo);
+		
+		List<GymVo> gymList = sparringDao.selectListGym(selectGymMap);
+		
+		
+		int totalCount = sparringDao.selectGymCount(searchMatchVo);
+		System.out.println("글의 수 :" + totalCount);
+		//페이지 버튼
+		Map<String,Object> pMap = paging(listCnt,crtPage,totalCount);
+		
 		DecimalFormat formatter = new DecimalFormat("###,###");
-
 		System.out.println(gymList);
 
 		for (int i = 0; i < gymList.size(); i++) {
@@ -227,8 +254,13 @@ public class SparringService {
 			System.out.println(gymList.get(i).getAddressHalf());
 
 		}
-
-		return gymList;
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("pMap",pMap);
+		map.put("gymList",gymList);
+		//검색을 위해 넣어준다
+		map.put("searchMatchVo",searchMatchVo);
+		return map;
 
 	}
 
@@ -252,45 +284,45 @@ public class SparringService {
 		Calendar cal = Calendar.getInstance();
 		String[] weekDay = { "일", "월", "화", "수", "목", "금", "토" };
 
-		// 월,일,요일을 넣을 vo의  리스트
+		// 월,일,요일을 넣을 vo의 리스트
 		List<DayVo> dayList = new ArrayList<DayVo>();
-		
+
 		// 값을 옮길때 사용한 빈 변수
 		int box = 0;
 		// 달이 0부터 시작하기 때문에 항상 + 1 이 붙는다
-		int month = cal.get(Calendar.MONTH) + 1; //월
-		int year = cal.get(Calendar.YEAR); //년도
+		int month = cal.get(Calendar.MONTH) + 1; // 월
+		int year = cal.get(Calendar.YEAR); // 년도
 		// 오늘에서 10일후 까지의 날짜를 구해야하기 때문에 10번 반복한다
 		for (int i = 0; i < 10; i++) {
-			int day = cal.get(Calendar.DAY_OF_MONTH) + i; //일
-			int dayofWeek = cal.get(Calendar.DAY_OF_WEEK) + i; //요일
-			
-			//오늘을 기준으로 항상 심어준다. (위에 것을 쓰지 않는 이유는 값에 +i 값이 들어가기 때문) 
+			int day = cal.get(Calendar.DAY_OF_MONTH) + i; // 일
+			int dayofWeek = cal.get(Calendar.DAY_OF_WEEK) + i; // 요일
+
+			// 오늘을 기준으로 항상 심어준다. (위에 것을 쓰지 않는 이유는 값에 +i 값이 들어가기 때문)
 			int dayOftoday = cal.get(Calendar.DAY_OF_MONTH);
 			cal.set(year, month - 1, dayOftoday);
-			
-			//오늘을 기준으로 월의 마지막 날을 구한다
+
+			// 오늘을 기준으로 월의 마지막 날을 구한다
 			int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-			
+
 			if (month == 12 & day == lastDay + 1) {
-				//반복된 day의 값이 월의 마지막일을 넘기고 월이 12월이라면  월을 1로 바꾸고 년도를 +1 한다
+				// 반복된 day의 값이 월의 마지막일을 넘기고 월이 12월이라면 월을 1로 바꾸고 년도를 +1 한다
 				box = 0;
 				month = 1;
 				year += 1;
-			}else if (day == lastDay + 1) {
-				//반복된 day의 값이 월의 마지막일을 넘겼다면  월을 +1 시켜준다
+			} else if (day == lastDay + 1) {
+				// 반복된 day의 값이 월의 마지막일을 넘겼다면 월을 +1 시켜준다
 				box = 0;
 				month = month + 1;
 			}
-			//반복된 값이 월의 마지막일보다 크다면 day를 0으로 만든 뒤 비어있던 box로 +1씩 날짜를 세어
-			//day에 넣어준다
+			// 반복된 값이 월의 마지막일보다 크다면 day를 0으로 만든 뒤 비어있던 box로 +1씩 날짜를 세어
+			// day에 넣어준다
 			if (day > lastDay) {
 				box += 1;
 				day = 0;
 				day += box;
 			}
-			
-			//요일은 switch-case 문에 맞게 늘 재조립해준다
+
+			// 요일은 switch-case 문에 맞게 늘 재조립해준다
 			if (dayofWeek > 7) {
 				if (dayofWeek > 14) {
 					dayofWeek = dayofWeek - 14;
@@ -327,9 +359,9 @@ public class SparringService {
 
 			/*********** 변경할수있음 **************/
 			// day가 1일일경우 숫자상 1로 찍히기 때문에 10보다 작은수는 0을 붙여 01 02 식으로바꿔준다
-			// 달력에서 DB로 인서트 되는 값은 2021-04-05 검색하기 위해 모양을 맞춰줘야한다 
+			// 달력에서 DB로 인서트 되는 값은 2021-04-05 검색하기 위해 모양을 맞춰줘야한다
 			// 현재 ex) 2021-4-5
-			// 원하는 결과값 ex) 2021-04-05 
+			// 원하는 결과값 ex) 2021-04-05
 			String dayString = "";
 			String date = "";
 			// 이렇게하는 이유는 검색을 03월 이렇게 되는데 month는 그냥 3 이기때문
@@ -565,42 +597,41 @@ public class SparringService {
 		// by 영훈
 		// booking테이블의 booking_start와 booking_end 로 나눠주기 end
 		System.out.println("통과");
-		
+
 		List<BBuyVo> bBuyList = null;
-		Map<String,Object> pMap = null;
-		//페이징 map
+		Map<String, Object> pMap = null;
+		// 페이징 map
 		if (userNo == 0) {
 			// by 영훈
 			// 일반 매칭리스트 or 스파링 일반 검색 기능
-			
-			//by 영훈 21-04-16
-			/*************페이징***************/
-			//페이징 당 글 갯수
+
+			// by 영훈 21-04-16
+			/************* 페이징 ***************/
+			// 페이징 당 글 갯수
 			int listCnt = 8;
-			
-			//SQL에서 rownum을 이용해 값을 받을 계획이니 
-			//between 값을 구한다
-			//먼저 crtPage가 0일 경우  1로 바꾼다 (페이지를 클릭한게 아니기에 첫페이지로 지정한다)
-			crtPage =(crtPage > 0) ? crtPage : (crtPage = 1);
-			//첫페이지는 1~8 두번째 페이지는 9~17로 listCnt가 변해도 값을 구할 수 있게 만든다
-			int startRnum = (crtPage-1) * listCnt + 1 ;
+
+			// SQL에서 rownum을 이용해 값을 받을 계획이니
+			// between 값을 구한다
+			// 먼저 crtPage가 0일 경우 1로 바꾼다 (페이지를 클릭한게 아니기에 첫페이지로 지정한다)
+			crtPage = (crtPage > 0) ? crtPage : (crtPage = 1);
+			// 첫페이지는 1~8 두번째 페이지는 9~17로 listCnt가 변해도 값을 구할 수 있게 만든다
+			int startRnum = (crtPage - 1) * listCnt + 1;
 			int endRnum = startRnum + listCnt - 1;
-			
-			System.out.println("스타트 = " + startRnum );
-			System.out.println("끝 = " + endRnum );
-			
-			Map<String,Object> selectBBuyMap = new HashMap<String,Object>();
-			
+
+			System.out.println("스타트 = " + startRnum);
+			System.out.println("끝 = " + endRnum);
+
+			Map<String, Object> selectBBuyMap = new HashMap<String, Object>();
+
 			selectBBuyMap.put("searchMatchVo", searchMatchVo);
 			selectBBuyMap.put("startRnum", startRnum);
 			selectBBuyMap.put("endRnum", endRnum);
-			
-			
+
 			bBuyList = sparringDao.selectBBuyList(selectBBuyMap);
 			int totalCount = sparringDao.selectBBuyCount(searchMatchVo);
-			
-			//페이지 버튼
-			pMap = paging(listCnt,crtPage,bBuyList,totalCount);
+
+			// 페이지 버튼
+			pMap = paging(listCnt, crtPage, totalCount);
 		} else {
 			// by 영훈
 			// 내게 맞는 매칭 검색은 userNo가 있다
@@ -669,7 +700,6 @@ public class SparringService {
 			}
 
 		}
-		
 
 		// by 영훈
 		// 매치리스트로 뿌려주는 사용자의 주특기 목록을 불러온다
@@ -697,14 +727,13 @@ public class SparringService {
 
 			}
 		}
-		
-		
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		
-		map.put("bBuyList",bBuyList);
-		map.put("pMap",pMap);
-		
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("bBuyList", bBuyList);
+		map.put("pMap", pMap);
+		//검색을 위해 넣어준다
+		map.put("searchMatchVo",searchMatchVo);
 		return map;
 
 	}
@@ -2156,59 +2185,57 @@ public class SparringService {
 		timeMap.put("bookingEnd", timeArray[1]);
 		return timeMap;
 	}
-	
-	public Map<String, Object> paging(int listCnt , int crtPage, List<BBuyVo> bBuyList , int totalCount) {
-		/**페이지당 버튼의 갯수에 의한 이전 이후를 구함**/
-		
-		//페이지당 버튼갯수
+
+	public Map<String, Object> paging(int listCnt, int crtPage,int totalCount) {
+		/** 페이지당 버튼의 갯수에 의한 이전 이후를 구함 **/
+
+		// 페이지당 버튼갯수
 		int pageBtnCnt = 10;
 
 		System.out.println("bbuy 사이즈 = " + totalCount);
-		
-		//끝 페이지버튼의 번호	
-		int endPageBtn = (int)Math.ceil(crtPage/(double)pageBtnCnt)* pageBtnCnt;
+
+		// 끝 페이지버튼의 번호
+		int endPageBtn = (int) Math.ceil(crtPage / (double) pageBtnCnt) * pageBtnCnt;
 		// 1/10.0 --> 0.1 --> 1.0 -->1 * 10 -->10
 		// 9/10.0 --> 0.9 --> 1.0 -->1 * 10 -->10
 		// 11/10.0 --> 1.1 --> 2.0 -->2 * 10 -->20
-		
-		//시작 페이지버튼의 번호
+
+		// 시작 페이지버튼의 번호
 		int startPageBtn = endPageBtn - (pageBtnCnt - 1);
-		
-		
-		//이전 이후 버튼보이기/숨기기 기능을 위해 boolean으로 만든다
-		
-		boolean prev ; //이전
-		boolean next ; //이후
-		
-		//이후버튼 
-		if(endPageBtn * listCnt < totalCount) { // 5*10 <1234
+
+		// 이전 이후 버튼보이기/숨기기 기능을 위해 boolean으로 만든다
+
+		boolean prev; // 이전
+		boolean next; // 이후
+
+		// 이후버튼
+		if (endPageBtn * listCnt < totalCount) { // 5*10 <1234
 			next = true;
-		}else {									  // 125*10 <1234
+		} else { // 125*10 <1234
 			next = false;
-			endPageBtn = (int) Math.ceil(totalCount/(double)listCnt);
-			
-			//마지막 페이지는 124 p가 되어야 하는데  위에 공식이 없을 경우 125로 잡혀버린다
-			//5개씩 잡기로 했기 때문인데
-			//그래서 마지막만  == 올림(글총갯수/(double)한페이지당 글 ) 공식을 새우면
-			//(1234/10) == 1234/10 == 123.4 가되 는데 올림하면 124 되서 마지막이 124가 된다
+			endPageBtn = (int) Math.ceil(totalCount / (double) listCnt);
+
+			// 마지막 페이지는 124 p가 되어야 하는데 위에 공식이 없을 경우 125로 잡혀버린다
+			// 5개씩 잡기로 했기 때문인데
+			// 그래서 마지막만 == 올림(글총갯수/(double)한페이지당 글 ) 공식을 새우면
+			// (1234/10) == 1234/10 == 123.4 가되 는데 올림하면 124 되서 마지막이 124가 된다
 			//
 		}
-		//이전버튼
-		
-		if(startPageBtn !=1) {
+		// 이전버튼
+
+		if (startPageBtn != 1) {
 			prev = true;
-		}else {
+		} else {
 			prev = false;
 		}
-		
-		Map<String,Object> pMap = new HashMap<String,Object>();
-		pMap.put("prev",prev);
-		pMap.put("next",next);
-		pMap.put("startPageBtnNo",startPageBtn);
-		pMap.put("endPageBtnNo",endPageBtn);
-		
+
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap.put("prev", prev);
+		pMap.put("next", next);
+		pMap.put("startPageBtnNo", startPageBtn);
+		pMap.put("endPageBtnNo", endPageBtn);
+
 		return pMap;
 	}
-	
 
 }

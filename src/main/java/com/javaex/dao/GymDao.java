@@ -63,6 +63,8 @@ public class GymDao {
 		System.out.println("[GymDao] gymInsert()");
 		
 		sqlSession.insert("gym.gymInsert", gymVo);
+		// by영훈 21-04-17 테스트용
+		//sqlSession.insert("gym.bookingTest", gymVo);
 	}
 	
 	//편의시설 불러오기

@@ -84,6 +84,13 @@
 			       sysdate)
 		]]>
 	</insert>
+	<insert id="bookingTest" parameterType="GymVo">
+	<![CDATA[
+	insert into booking
+	values(SEQ_BOOKING_NO.nextval,#{gym_no},'2021-04-18','15:00','19:00',80000,'대기',sysdate)
+	]]>
+	
+	</insert>
 	
 	<!-- 체육관 이미지 등록 -->
 	<insert id="gimgInsert" parameterType="GymImgVo">
@@ -172,36 +179,83 @@
 	
 	<!-- ///////////////////////////////////////////////////////// -->
 	
-	<!-- 영훈 체육관 리스트 셀렉트 -->
+	<!-- by영훈 체육관 리스트 셀렉트  + 페이징 21-04-17 -->
 	
-	<select id="selectListGym" resultType="GymVo">
+	<select id="selectListGym" parameterType="map" resultType="GymVo">
 		<![CDATA[
-			select g.gym_no as gym_no,
-			       g.sell_no as sell_no,
-			       g.gym_name as gym_name,   
-			       g.gym_address as gym_address,
-			       g.gym_event as gym_event, 
-			       round(avg(b.booking_price),-3)as avgPrice,
-			       y.gym_img_savename as gymImgSavename,
-			       y.gym_img_type as gymImgType
-			from gym g , booking b , (select g.gym_no,
-			                                 i.gym_img_savename,
-			                                 i.gym_img_type 
-			                          from gymimg i,gym g 
-			                          where i.gym_no = g.gym_no
-			                          and i.gym_img_type = 'main') y
-			where g.gym_no = b.gym_no
-			and y.gym_no = g.gym_no
-			group by g.gym_no,
-			         g.gym_name, 
-			         g.sell_no,
-			         g.gym_address,
-			         g.gym_event,
-			         y.gym_img_savename,
-			         y.gym_img_type 
-			order by g.gym_no desc
-		
+		select rn.rown,
+             rn.gym_no as gym_no,
+             rn.sell_no as sell_no,
+             rn.gym_name as gym_name,   
+             rn.gym_address as gym_address,
+             rn.gym_event as gym_event, 
+             rn.avgPrice,
+             rn.gym_img_savename as gymImgSavename,
+             rn.gym_img_type as gymImgType     
+      from(select rownum as rown,
+                  r.gym_no,
+                  r.sell_no,
+                  r.gym_name ,   
+                  r.gym_address,
+                  r.gym_event, 
+                  r.avgPrice,
+                  r.gym_img_savename,
+                  r.gym_img_type 
+           from(select g.gym_no,
+                       g.sell_no, 
+                       g.gym_name,   
+                       g.gym_address, 
+                       g.gym_event,  
+                       round(avg(b.booking_price),-3)as avgPrice,
+                       y.gym_img_savename, 
+                       y.gym_img_type 
+                from gym g , booking b , (select g.gym_no,
+                                                 i.gym_img_savename,
+                                                 i.gym_img_type 
+                                          from gymimg i,gym g 
+                                          where i.gym_no = g.gym_no
+                                          and i.gym_img_type = 'main') y
+                where g.gym_no = b.gym_no
+                and y.gym_no = g.gym_no
+            ]]>		
+			<if test="searchMatchVo.search != null and searchMatchVo.search != '' ">
+				and (g.gym_address like '%'||#{searchMatchVo.search}||'%' or g.gym_name like '%'||#{searchMatchVo.search}||'%')
+			</if>
+			<![CDATA[
+                group by g.gym_no,
+                         g.gym_name, 
+                         g.sell_no,
+                         g.gym_address,
+                         g.gym_event,
+                         y.gym_img_savename,
+                         y.gym_img_type 
+                order by g.gym_no desc)r
+           order by rownum asc)rn
+      where rn.rown between #{startRnum} and #{endRnum}
+
 		]]>		
+	</select>
+	
+	<select id="selectGymCount" parameterType="searchMatchVo" resultType="int">
+		<![CDATA[
+            select count(*)
+            from(select g.gym_no
+                 from gym g , booking b , (select g.gym_no,
+                                                  i.gym_img_savename,
+                                                  i.gym_img_type 
+                                           from gymimg i,gym g 
+                                           where i.gym_no = g.gym_no
+                                           and i.gym_img_type = 'main') y
+                 where g.gym_no = b.gym_no
+                 and y.gym_no = g.gym_no
+            ]]>		
+			<if test="search != null and search != '' ">
+				 and (g.gym_address like '%'||#{search}||'%' or g.gym_name like '%'||#{search}||'%')
+			</if>
+			<![CDATA[
+                 group by g.gym_no
+                 order by g.gym_no desc)c		
+		]]>
 	</select>
 	<select id="selectOneGym" parameterType="int" resultType="GymVo">
 		<![CDATA[

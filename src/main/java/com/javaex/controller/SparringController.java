@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,13 +81,16 @@ public class SparringController {
 	@RequestMapping(value = "/rent", method = { RequestMethod.GET, RequestMethod.POST })
 	public String rent(Model model,
 					  @RequestParam(value = "subnum" , required=false, defaultValue="0") int subnum,
-					  @RequestParam(value = "bbuyno" , required=false, defaultValue="0") int bbuyno) {
+					  @RequestParam(value = "bbuyno" , required=false, defaultValue="0") int bbuyn,
+					  @RequestParam(value = "userno" , required=false, defaultValue="0") int userNo,
+					  @RequestParam(value="crtPage", required=false, defaultValue="0")int crtPage,
+					  @ModelAttribute SearchMatchVo searchMatchVo ) {
 		System.out.println("[Controller] : rent()");
-
-		List<GymVo> gymList = sparringService.rent();
-		System.out.println(gymList);
-
-		model.addAttribute("gymList", gymList);
+		
+		Map<String, Object> gMap = sparringService.rent(userNo,searchMatchVo,crtPage);
+		
+		
+		model.addAttribute("map", gMap);
 
 		return "matching/rent";
 	}

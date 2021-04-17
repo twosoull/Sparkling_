@@ -90,7 +90,11 @@ public class GymService {
 					MultipartFile mainfile,
 					MultipartFile subfile) {
 		System.out.println("[GymService] gymAdd()");
-
+		
+		//by 영훈 21-04-17 for문 테스트용
+		//for(int j = 0; j<100; j++) {
+			
+		
 		String con;
 		ConVo conVo;
 
@@ -211,7 +215,14 @@ public class GymService {
 			gimgVo.setGym_no(gymNo);
 
 			System.out.println("[service]체육관이미지등록 출발" + gimgVo);
+			
+			byte[] fileData = mainfile.getBytes();
+			OutputStream out = new FileOutputStream(mainfileFullPath);
+			BufferedOutputStream bos = new BufferedOutputStream(out);
+			bos.write(fileData);
+			bos.close();
 			gymDao.gimgInsert(gimgVo);
+			
 			
 			// 서브파일 저장
 			String subfilePath = "C:\\javaStudy\\upload"; // 설정파일로 뺀다.
@@ -232,13 +243,20 @@ public class GymService {
 			gimgVo2.setGym_no(gymNo);
 
 			System.out.println("[service]체육관이미지등록 출발" + gimgVo);
-			gymDao.gimgInsert(gimgVo);
+			
+			byte[] fileData2 = subfile.getBytes();
+			OutputStream out2 = new FileOutputStream(subfileFullPath);
+			BufferedOutputStream bos2 = new BufferedOutputStream(out2);
+			bos2.write(fileData2);
+			bos2.close();
+			gymDao.gimgInsert(gimgVo2);
 
 		} catch (Exception e) {
 			System.out.println("postTempFile_ERROR======>");
 
 			e.printStackTrace();
 		}
+		//}테스트반복문
 	}
 
 	// 대관 등록

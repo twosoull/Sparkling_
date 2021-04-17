@@ -138,6 +138,9 @@ input:-ms-input-placeholder {
   color: black;
   height: 40.5px;
 }
+.input-text_box {
+  padding-left:380px;
+}
 .gim_btn {
   border: none;
   background-color: #f7f7f7;

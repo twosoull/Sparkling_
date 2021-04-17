@@ -13,7 +13,7 @@ public class SearchMatchVo {
 	
 	
 	public SearchMatchVo() {
-		super();
+		
 	}
 	
 	public SearchMatchVo(String date, String time, String search, String booking_start, String booking_end) {

@@ -93,10 +93,10 @@ public class SparringDao {
 		return recordList;
 	}
 
-	public List<GymVo> selectListGym() {
+	public List<GymVo> selectListGym(Map<String, Object> selectGymMap) {
 		System.out.println("[Dao] : selectListGym()");
 		
-		return sqlSession.selectList("gym.selectListGym");
+		return sqlSession.selectList("gym.selectListGym",selectGymMap);
 		
 		
 	}
@@ -446,6 +446,13 @@ public class SparringDao {
 		int count = sqlSession.selectOne("bbuy.selectBBuyCount",searchMatchVo);
 		
 		return count;
+	}
+
+	public int selectGymCount(SearchMatchVo searchMatchVo) {
+		System.out.println("[Dao] : selectGymCount()");
+		return sqlSession.selectOne("gym.selectGymCount",searchMatchVo);
+		
+		
 	}
 
 	
