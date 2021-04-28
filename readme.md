@@ -2,7 +2,7 @@
 ![main_page](https://cdn.discordapp.com/attachments/813586043332460549/831398756434837544/13-4-2021_14945_www.localhost.jpeg)
 ___
 ## notion 자세히..
-   이영훈 : https://www.notion.so/bee4b49d4dc844f0823946b2f79fde4d
+  <a href="https://www.notion.so/bee4b49d4dc844f0823946b2f79fde4d">view project!</a>
    
 
 ## 메인 서비스
