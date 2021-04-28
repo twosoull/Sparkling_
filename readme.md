@@ -1,14 +1,14 @@
 # 프로젝트 SPARKLING
 ![main_page](https://cdn.discordapp.com/attachments/813586043332460549/831398756434837544/13-4-2021_14945_www.localhost.jpeg)
 ___
-## notion 자세히..
-  <a href="https://www.notion.so/bee4b49d4dc844f0823946b2f79fde4d">view project!</a>
-   
-
 ## 메인 서비스
 * 스파링 파트너 매칭
 * 체육관 대여
 * 스파링 용품 판매
+
+## notion 자세히..
+<a href="https://www.notion.so/bee4b49d4dc844f0823946b2f79fde4d">view project!</a>
+   
 ___
 ## 개발팀
 **조설아(팀장)** [(https://github.com/snowbeauti)](https://github.com/snowbeauti)   
