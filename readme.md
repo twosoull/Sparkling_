@@ -1,10 +1,8 @@
 # 프로젝트 SPARKLING
 ![main_page](https://cdn.discordapp.com/attachments/813586043332460549/831398756434837544/13-4-2021_14945_www.localhost.jpeg)
 ___
-## 기획 목표
-작성중~
-## 프로젝트 기간
-**2021.03.03~2021.04.04 (계속 업데이트 중)**   
+## notion 자세히..
+   이영훈 : https://www.notion.so/bee4b49d4dc844f0823946b2f79fde4d
    
 
 ## 메인 서비스
