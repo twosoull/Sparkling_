@@ -7,7 +7,8 @@ ___
 * 스파링 용품 판매
 
 ## notion 자세히..
-<a href="https://www.notion.so/bee4b49d4dc844f0823946b2f79fde4d">view project!</a>
+<a href="https://www.notion.so/bee4b49d4dc844f0823946b2f79fde4d">view project notion</a>
+<a href="https://youtu.be/uIYvmcAQra8">view project introduce movie</a>
    
 ___
 ## 개발팀
